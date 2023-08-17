@@ -7,10 +7,11 @@ Biblioteca digital para aluguel e compra de livros
 
 ## :books: Funcionalidades
 * <b>Cadastro</b>: Cadastro de novos clientes, consultando API de Zip Code para auto-preencher endereço.
-* <b>Criptografia<b>: Salting e hash da senha
+* <b>Criptografia</b>: Salting e hash da senha
 
 ## :wrench: Tecnologias utilizadas
 * Java 19
+* MySQL 8.0.33
 
 ## :rocket: Rodando o projeto
 Para rodar o repositório é necessário clonar o mesmo, dar o seguinte comando para iniciar o projeto:
