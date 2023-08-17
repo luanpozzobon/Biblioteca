@@ -1,13 +1,18 @@
 package com.luan.getlib;
 
+import com.luan.getlib.dao.CustomerDAO;
 import com.luan.getlib.models.Address;
 import com.luan.getlib.models.Customer;
+import com.luan.getlib.security.PasswordUtils;
 import com.luan.getlib.service.ZipCodeService;
+import com.luan.getlib.utils.DataFormatter;
+import com.luan.getlib.utils.DataValidator;
 import com.luan.getlib.utils.InputReader;
+import java.time.LocalDate;
 
 /**
- *
- * @author luanp
+ * @since v0.1.0
+ * @author luanpozzobon
  */
 public class Getlib {
     private static InputReader sc = new InputReader();
@@ -29,7 +34,6 @@ public class Getlib {
                     // TODO - Login
                     break;
                 case 2:
-                    // TODO - Cadastrar
                     register();
                     break;
                 case 3:
@@ -49,13 +53,13 @@ public class Getlib {
         while(true){
             System.out.println("1-Cliente");
             System.out.println("2-Funcionário");
-            System.out.println("3-Voltar");
+            System.out.println("0-Voltar");
             switch(sc.getNextInt()){
                 case 1:
                     System.out.print("Nome Completo: ");
                     String fullname = sc.getNextLine();
                     System.out.print("Data de Nascimento (aaaa-mm-dd): ");
-                    String birthdate = sc.getNextLine();
+                    LocalDate birthdate = DataFormatter.formatDate(sc.getNextLine());
                     System.out.print("CEP: ");
                     String zipCode = sc.getNextLine();
                     Address add;
@@ -84,27 +88,33 @@ public class Getlib {
                     String phone = sc.getNextLine();
                     System.out.println("Quase lá!");
                     System.out.print("Nome de usuário: ");
-                    String username = sc.getNextLine();
-                    // TODO - Validar unicidade do username
+                    String username;
+                    while(!(DataValidator.isUsernameValid(username = sc.getNextLine()))){
+                        System.out.println("Tente Novamente!");
+                        System.out.print("Nome de usuário: ");
+                    }
 
                     System.out.print("Senha: ");
                     String password = sc.getNextLine();
                     System.out.print("Confirme a senha:");
-                    while(!(password.equals(sc.getNextLine()))){
-                        System.out.println("Senhas não conferem! Tente novamente!");
+                    while(!DataValidator.isPasswordValid(password, sc.getNextLine())){
+                        System.out.println("Tente Novamente!");
                         System.out.print("Senha: ");
                         password = sc.getNextLine();
                         System.out.print("Confirme a senha: ");
                     }
-                    // TODO - Encriptar senha
+                    
+                    String salt = PasswordUtils.generateSalt();
+                    password = PasswordUtils.encryptPassword(password, salt);
 
-                    Customer customer = new Customer(fullname, birthdate, add, email, phone, 50.0, username, password);
-                    // TODO - Cadastrar no banco de dados
+                    if(!CustomerDAO.saveCustomer(new Customer(fullname, birthdate, add, email, phone, 50.0, username, salt, password))){
+                        System.out.println("Ocorreu um erro ao salvar o usuário! Tente novamente mais tarde!");
+                    }
                     break;
                 case 2:
                     // TODO - Funcionários
                     break;
-                case 3:
+                case 0:
                     return;
                 default:
                     System.out.println("Opção Inválida!");

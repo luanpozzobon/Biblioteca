@@ -3,8 +3,8 @@ package com.luan.getlib.utils;
 import java.util.Scanner;
 
 /**
- *
- * @author luanp
+ * @since v0.1.0
+ * @author luanpozzobon
  */
 public class InputReader {
     private final Scanner sc;

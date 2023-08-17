@@ -1,8 +1,8 @@
 package com.luan.getlib.models;
 
 /**
- *
- * @author luanp
+ * @since v0.1.0
+ * @author luanpozzobon
  */
 public class Address {
     private String nation;
@@ -10,7 +10,7 @@ public class Address {
     private String city;
     private String street;
     private String number;
-    private String zipCode; // Futura implementação de API, para consulta de endereço com ZIP code
+    private String zipCode;
 
     public Address() {}
     
@@ -61,4 +61,11 @@ public class Address {
     public String getZipCode() {
         return zipCode;
     }
+
+    @Override
+    public String toString() {
+        return street + ',' + number + ',' + city + ',' + state + ',' + nation + ',' + zipCode;
+    }
+    
+    
 }

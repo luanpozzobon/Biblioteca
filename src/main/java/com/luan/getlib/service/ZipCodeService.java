@@ -4,20 +4,30 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.luan.getlib.models.Address;
 import com.luan.getlib.utils.ClientHttp;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
- * @author luanp
+ * @since v0.1.0
+ * @author luanpozzobon
  */
 public class ZipCodeService {
     private String url;
     private final ClientHttp client;
     private final Pattern REGEX_ITEMS = Pattern.compile(".*\\[(.+)\\].*");
+    private final String PROPERTIES = "config.properties";
 
     public ZipCodeService() {
-        this.url = "https://app.zipcodebase.com/api/v1/search?apikey=" + "API_KEY";
+        Properties prop = new Properties();
+        try(InputStream inputStream = ZipCodeService.class.getClassLoader().getResourceAsStream(PROPERTIES)){
+            prop.load(inputStream);
+            this.url = prop.getProperty("zipcode.url") + prop.getProperty("zipcode.key");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         client = new ClientHttp();
     }
     
