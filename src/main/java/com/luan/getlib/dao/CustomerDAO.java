@@ -14,24 +14,25 @@ import java.sql.Date;
  */
 public class CustomerDAO {
     public static boolean usernameExists(String username){
-        return searchUsername(username) != null;
+        return findByUsername(username) != null;
     }
     
     public static boolean saveCustomer(Customer cst){
         try(Connection conn = Database.getConnection();
-            PreparedStatement st = conn.prepareStatement("INSERT INTO customers VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?)")){
+            PreparedStatement st = conn.prepareStatement("INSERT INTO customers VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")){
             
             st.setString(1, cst.getFullName());
             st.setDate(2, Date.valueOf(cst.getBirthDate()));
             st.setString(3, cst.getAddress().toString());
-            st.setString(4, cst.getEmail());
-            st.setString(5, cst.getPhone());
-            st.setString(6, cst.getUsername());
-            st.setDouble(7, cst.getCredits());
-            st.setString(8, cst.getSalt());
-            st.setString(9, cst.getPassword());
+            st.setString(4, cst.getCurrency());
+            st.setString(5, cst.getEmail());
+            st.setString(6, cst.getPhone());
+            st.setString(7, cst.getUsername());
+            st.setDouble(8, cst.getCredits());
+            st.setString(9, cst.getSalt());
+            st.setString(10, cst.getPassword());
             
-            System.out.println(st.executeUpdate());
+            st.executeUpdate();
             
             return true;
             
@@ -41,13 +42,13 @@ public class CustomerDAO {
         }
     }
     
-    private static ResultSet searchUsername(String username){
+    public static Customer findByUsername(String username){
         try(Connection conn = Database.getConnection();
             PreparedStatement st = conn.prepareStatement("SELECT username FROM customers WHERE username = ?")){
             st.setString(1, username);
             ResultSet rSet = st.executeQuery();
             
-            if(rSet.next()) return rSet;
+            if(rSet.next()) return new Customer(rSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }

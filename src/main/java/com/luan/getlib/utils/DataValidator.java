@@ -1,6 +1,8 @@
 package com.luan.getlib.utils;
 
 import com.luan.getlib.dao.CustomerDAO;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,6 +72,14 @@ public class DataValidator {
     
     public static boolean usernameExists(String username){
         return CustomerDAO.usernameExists(username);
+    }
+    
+    public static boolean isOldEnough(LocalDate age, int requiredAge){
+        return (Period.between(age, LocalDate.now()).getYears() >= requiredAge);
+    }
+    
+    public static boolean arePasswordsEqual(String password, String password2){
+        return password.equals(password2);
     }
     
     private static boolean isLengthValid(String value, int minLength, int maxLength){

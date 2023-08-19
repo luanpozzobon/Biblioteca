@@ -16,10 +16,16 @@ public class ClientHttp {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create(url)).GET().build();
             
-            return client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if(response.statusCode() == 200){
+                return response.body();
+            } else {
+                System.out.println("Erro ao consultar a URL!");
+            }
+            
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            return "";
         }
+        return "";
     }
 }

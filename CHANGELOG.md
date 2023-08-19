@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.2] - 2023-08-19
+
+### Added
+
+- Cadastro de funcionários.
+- Validação de idade.
+- Autenticação de clientes e funcionários.
+- Consulta automática da moeda local.
+
+### Changed
+
+- Alterado estrutura de "telas".
+
 ## [0.1.1] - 2023-08-17
 
 ### Added
@@ -8,11 +21,11 @@
 - Validação de tamanho mínimo e unicidade do username.
 - Validação de condições mínimas para criação de senha segura.
 - Salting e hash da senha.
-- Conexão ao banco de dados (Salvar e buscar cliente)
+- Conexão ao banco de dados (Salvar e buscar cliente).
 
 ### Changed
 
-- Alterado tipo de dado para a data de nascimento (String -> LocalDate)
+- Alterado tipo de dado para a data de nascimento (String -> LocalDate).
 
 ## [0.1.0] - 2023-08-14
 

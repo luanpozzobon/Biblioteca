@@ -12,7 +12,14 @@ public class Address {
     private String number;
     private String zipCode;
 
-    public Address() {}
+    public Address() {
+        this.nation = null;
+        this.state = null;
+        this.city = null;
+        this.street = null;
+        this.number = null;
+        this.zipCode = null;
+    }
     
     public Address(String nation, String state, String city, String zipCode) {
         this.nation = nation;
@@ -65,6 +72,12 @@ public class Address {
     @Override
     public String toString() {
         return street + ',' + number + ',' + city + ',' + state + ',' + nation + ',' + zipCode;
+    }
+
+    Address toAddress(String add) {
+        String[] values = add.split(",");        
+        
+        return new Address(values[4], values[3], values[2], values[0], values[1], values[5]);
     }
     
     
