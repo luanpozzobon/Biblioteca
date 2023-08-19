@@ -6,8 +6,9 @@
 Biblioteca digital para aluguel e compra de livros
 
 ## :books: Funcionalidades
-* <b>Cadastro</b>: Cadastro de novos clientes, consultando API de Zip Code para auto-preencher endereço.
-* <b>Criptografia</b>: Salting e hash da senha
+* <b>Cadastro</b>: Cadastro de novos usuários, consultando API de Zip Code para auto-preencher endereço.
+* <b>Criptografia</b>: Salting e hash da senha.
+* <b>Autenticação</b>: Login de usuários.
 
 ## :wrench: Tecnologias utilizadas
 * Java 19
