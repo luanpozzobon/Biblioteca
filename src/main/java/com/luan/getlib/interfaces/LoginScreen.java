@@ -25,11 +25,11 @@ public class LoginScreen {
                 System.out.println("Verifique se o código de acesso foi digitado corretamente e tente novamente");
                 continue;
             }
-            System.out.println("Digite sua senha: ");
+            System.out.print("Digite sua senha: ");
             String password = PasswordUtils.encryptPassword(sc.getNextLine(), emp.getSalt());
             if(!DataValidator.arePasswordsEqual(emp.getPassword(), password)){
                 System.out.println("Senha Incorreta!");
-                emp = new Employee();
+                continue;
             }
             return emp;
         }
@@ -48,8 +48,8 @@ public class LoginScreen {
             System.out.println("Digite sua senha: ");
             String password = PasswordUtils.encryptPassword(sc.getNextLine(), cst.getSalt());
             if(!DataValidator.arePasswordsEqual(cst.getPassword(), password)){
-                System.out.println("Senha Incorreta!");
-                cst = new Customer();
+                System.out.print("Senha Incorreta!");
+                continue;
             }
             return cst;
         }

@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.2.0] - 2023-08-22
+
+### Added
+
+- Adicionado classe modelo de livros.
+- Adicionado classe de banco de dados para livros.
+- Adicionada função para alterar senha do Funcionário.
+- Adicionado listagem e busca de livros (funcionários).
+- Adicionado edição, inserção e remoção de livros (funcionários).
+- Adicionado método de salvamento e atualização de livros.
+
+### Changed
+
+- O método `isPasswordValid` agora utiliza o método `arePasswordEquals` para verificar se as senhas são iguais.
+
+### Removed
+
+- Removido método `passwordMatch` na classe `DataValidator`.
+
 ## [0.1.2] - 2023-08-19
 
 ### Added

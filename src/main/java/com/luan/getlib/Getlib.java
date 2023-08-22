@@ -1,6 +1,7 @@
 package com.luan.getlib;
 
 import com.luan.getlib.interfaces.LoginScreen;
+import com.luan.getlib.interfaces.MenuScreen;
 import com.luan.getlib.interfaces.RegistrationScreen;
 import com.luan.getlib.models.Customer;
 import com.luan.getlib.models.Employee;
@@ -41,6 +42,7 @@ public class Getlib {
                             break;
                         case 2:
                             emp = LoginScreen.employee();
+                            MenuScreen.employee(emp);
                             break;
                         default:
                             System.out.println("Opção Inválida! Tente novamente!");
@@ -52,13 +54,13 @@ public class Getlib {
                     System.out.println("2-Funcionário");
                     System.out.println("0-Voltar");
                     switch(sc.getNextInt()){
+                        case 0:
+                            break;
                         case 1:
                             RegistrationScreen.customer();
                             break;
                         case 2:
                             RegistrationScreen.employee();
-                            break;
-                        case 0:
                             break;
                         default:
                             System.out.println("Opção Inválida! Tente novamente!");

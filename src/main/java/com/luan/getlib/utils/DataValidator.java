@@ -62,7 +62,7 @@ public class DataValidator {
             return false;
         }
         
-        if(!passwordMatch(password, password2)){
+        if(!arePasswordsEqual(password, password2)){
             System.out.println("Senhas não conferem!");
             return false;
         }
@@ -114,9 +114,5 @@ public class DataValidator {
         Matcher m = ALLOWED_CHAR.matcher(password);
         
         return m.matches();
-    }
-
-    private static boolean passwordMatch(String password, String password2) {
-        return password.equals(password2);
     }
 }

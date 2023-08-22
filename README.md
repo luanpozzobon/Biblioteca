@@ -20,8 +20,7 @@ Para rodar o repositório é necessário clonar o mesmo, dar o seguinte comando 
 ```
 
 ## :soon: Implementação futura
-* Implementação do cadastro de funcionários
-* Implementação do login de clientes e funcionários
+* Funções de cliente (empréstimo, compra, etc).
 
 ## :handshake: Colaboradores
 <table>
