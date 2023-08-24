@@ -11,11 +11,7 @@ import java.sql.SQLException;
  * @since v0.1.2
  * @author luanpozzobon
  */
-public class EmployeeDAO {
-    public static boolean accessCodeExists(String accessCode){
-        return findByAccessCode(accessCode) != null;
-    }
-    
+public class EmployeeDAO {    
     public static boolean saveEmployee(Employee emp){
         try(Connection conn = Database.getConnection();
             PreparedStatement st = conn.prepareStatement("INSERT INTO employees VALUES(DEFAULT, ?, ?, ?, ?, ?, ?)")){
@@ -46,5 +42,9 @@ public class EmployeeDAO {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public static boolean accessCodeExists(String accessCode){
+        return findByAccessCode(accessCode) != null;
     }
 }

@@ -4,8 +4,6 @@ package com.luan.getlib.models;
  * @since v0.1.0
  * @author luanpozzobon
  */
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class Customer {
@@ -21,37 +19,6 @@ public class Customer {
     private String salt;        // Salting da senha
     private String password;    // Senha encriptada
 
-    public Customer(String fullName, LocalDate birthDate, Address address, String email, String phone, double credits, String currency, String username, String salt, String password) {
-        this.fullName = fullName;
-        this.birthDate = birthDate;
-        this.address = address;
-        this.email = email;
-        this.phone = phone;
-        this.credits = credits;
-        this.currency = currency;
-        this.username = username;
-        this.salt = salt;
-        this.password = password;
-    }
-    
-    public Customer(ResultSet rSet){
-        try{
-            this.id = rSet.getInt("id");
-            this.fullName = rSet.getString("fullName");
-            this.birthDate = LocalDate.parse(rSet.getString("birthDate"));
-            this.address = address.toAddress(rSet.getString("address"));
-            this.email = rSet.getString("email");
-            this.phone = rSet.getString("phone");
-            this.credits = rSet.getDouble("credits");
-            this.currency = rSet.getString("currency");
-            this.username = rSet.getString("username");
-            this.salt = rSet.getString("salt");
-            this.password = rSet.getString("password");
-        } catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
-
     public Customer() {
         this.id = 0;
         this.fullName = null;
@@ -65,7 +32,37 @@ public class Customer {
         this.password = null;
     }
     
+    public Customer(int id, String username){
+        this.id = id;
+        this.username = username;
+    }
     
+    public Customer(String fullName, LocalDate birthDate, Address address, String email, String phone, double credits, String currency, String username, String salt, String password) {
+        this.fullName = fullName;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.credits = credits;
+        this.currency = currency;
+        this.username = username;
+        this.salt = salt;
+        this.password = password;
+    }
+    
+    public Customer(int id, String fullName, LocalDate birthDate, Address address, String email, String phone, double credits, String currency, String username, String salt, String password) {
+        this.id = id;
+        this.fullName = fullName;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.credits = credits;
+        this.currency = currency;
+        this.username = username;
+        this.salt = salt;
+        this.password = password;
+    }
 
     public int getId() {
         return id;

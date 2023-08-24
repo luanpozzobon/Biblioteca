@@ -39,6 +39,7 @@ public class Getlib {
                             break;
                         case 1:
                             cst = LoginScreen.customer();
+                            MenuScreen.customer(cst);
                             break;
                         case 2:
                             emp = LoginScreen.employee();

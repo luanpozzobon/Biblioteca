@@ -10,9 +10,9 @@ public class Book {
     private String genre;
     private int amount;
     private double value;
-    private String parentalRating;
+    private int parentalRating;
     
-    public Book(String title, String genre, int amount, double value, String parentalRating) {
+    public Book(String title, String genre, int amount, double value, int parentalRating) {
         this.title = title;
         this.genre = genre;
         this.amount = amount;
@@ -20,7 +20,7 @@ public class Book {
         this.parentalRating = parentalRating;
     }
     
-    public Book(int id, String title, String genre, int amount, double value, String parentalRating) {
+    public Book(int id, String title, String genre, int amount, double value, int parentalRating) {
         this.id = id;
         this.title = title;
         this.genre = genre;
@@ -54,7 +54,7 @@ public class Book {
         return value;
     }
 
-    public String getParentalRating() {
+    public int getParentalRating() {
         return parentalRating;
     }
 

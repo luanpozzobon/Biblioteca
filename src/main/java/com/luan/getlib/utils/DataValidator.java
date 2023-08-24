@@ -70,16 +70,16 @@ public class DataValidator {
         return true;
     }
     
-    public static boolean usernameExists(String username){
-        return CustomerDAO.usernameExists(username);
-    }
-    
     public static boolean isOldEnough(LocalDate age, int requiredAge){
         return (Period.between(age, LocalDate.now()).getYears() >= requiredAge);
     }
     
     public static boolean arePasswordsEqual(String password, String password2){
         return password.equals(password2);
+    }
+    
+    private static boolean usernameExists(String username){
+        return CustomerDAO.usernameExists(username);
     }
     
     private static boolean isLengthValid(String value, int minLength, int maxLength){

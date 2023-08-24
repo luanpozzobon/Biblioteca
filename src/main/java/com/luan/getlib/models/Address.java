@@ -36,6 +36,17 @@ public class Address {
         this.number = number;
         this.zipCode = zipCode;
     }
+    
+    public Address(String address){
+        String[] values = address.split(",");        
+        
+        this.nation = values[4];
+        this.state = values[3];
+        this.city = values[2];
+        this.street = values[0];
+        this.number = values[1];
+        this.zipCode = values[5];
+    }
 
     public String getStreet() {
         return street;
@@ -73,12 +84,4 @@ public class Address {
     public String toString() {
         return street + ',' + number + ',' + city + ',' + state + ',' + nation + ',' + zipCode;
     }
-
-    Address toAddress(String add) {
-        String[] values = add.split(",");        
-        
-        return new Address(values[4], values[3], values[2], values[0], values[1], values[5]);
-    }
-    
-    
 }

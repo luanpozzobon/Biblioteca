@@ -37,7 +37,7 @@ public class LoginScreen {
     
     public static Customer customer(){
         while(true){
-            System.out.println("Digite seu nome de usuário: ");
+            System.out.print("Digite seu nome de usuário: ");
             String username = sc.getNextLine();
             Customer cst = CustomerDAO.findByUsername(username);
             if(cst == null){
@@ -45,10 +45,11 @@ public class LoginScreen {
                 System.out.println("Verifique se o nome de usuário foi digitado corretamente e tente novamente");
                 continue;
             }
-            System.out.println("Digite sua senha: ");
+            cst = CustomerDAO.findById(cst.getId());
+            System.out.print("Digite sua senha: ");
             String password = PasswordUtils.encryptPassword(sc.getNextLine(), cst.getSalt());
             if(!DataValidator.arePasswordsEqual(cst.getPassword(), password)){
-                System.out.print("Senha Incorreta!");
+                System.out.println("Senha Incorreta!");
                 continue;
             }
             return cst;
