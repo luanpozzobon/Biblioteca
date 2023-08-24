@@ -4,22 +4,22 @@
 
 ### Added
 
-- Adicionado construtor de `[Customer](Customer.java)` que recebe `id`, e `username`.
-- Adicionado construtor de `[Address](Address.java)` que recebe uma string do banco de dados.
-- Adicionado métodos `updateCustomer` e `findById` para `[Customer](CustomerDAO.java)`.
-- Adicionado classes `[Operations](Operations.java)` e `[OperationsDAO](OperationsDAO.java)` para compras e aluguel.
+- Adicionado construtor de `Customer` que recebe `id`, e `username`.
+- Adicionado construtor de `Address` que recebe uma string do banco de dados.
+- Adicionado métodos `updateCustomer` e `findById` para `Customer`.
+- Adicionado classes `Operations` e `OperationsDAO` para compras e aluguel.
 - Adicionado lógica de aluguel, devolução e compra de livros.
 
 ### Changed
 
-- Método `[usernameExists](DataValidator.java)` agora é privado, sendo usado apenas através do `[isUsernameValid](DataValidator.java)`.
-- Método `[findByUsername](CustomerDAO.java)` agora retorna um objeto com `id` e `username`.
-- Tipo de dado do `[parentalRating](Book.java)` dos livros agora é `int`.
+- Método `usernameExists` agora é privado, sendo usado apenas através do `isUsernameValid`.
+- Método `findByUsername` agora retorna um objeto com `id` e `username`.
+- Tipo de dado do `parentalRating` dos livros agora é `int`.
 - Classificação indicativa `Livre` agora recebe é `0`.
 
 ### Removed
 
-- Removido construtor de `[Customer]{Customer.java}` que utilizava ResultSet.
+- Removido construtor de `Customer` que utilizava ResultSet.
 
 ## [0.2.0] - 2023-08-22
 
