@@ -3,11 +3,11 @@
 
 ## :memo: Descrição
 Biblioteca digital para aluguel e compra de livros.
-O sistema apenas simula uma biblioteca, não é possível comprar ou alugar nenhum livro.
-Todos os livros presentes, são reais, e foram adicionados a partir da API do Google Books, título e gênero são dados reais, os outros dados são aleatórios.
-Os valores dos livros são valores aleatórios, adicionados em dólar.
-Os valores editados pelos funcionários, também devem ser colocados em dólar.
-Os valores mostrados aos clientes, é convertido para a moeda local, portanto ele pode variar de acordo com a cotação atual.
+* O sistema apenas simula uma biblioteca, não é possível comprar ou alugar nenhum livro.
+* Todos os livros presentes, são reais, e foram adicionados a partir da API do Google Books, título e gênero são dados reais, os outros dados são aleatórios.
+* Os valores dos livros são valores aleatórios, adicionados em dólar.
+* Os valores editados pelos funcionários, também devem ser colocados em dólar.
+* Os valores mostrados aos clientes, é convertido para a moeda local, portanto ele pode variar de acordo com a cotação atual.
 
 ## :books: Funcionalidades
 * <b>Cadastro</b>: Cadastro de novos usuários.
