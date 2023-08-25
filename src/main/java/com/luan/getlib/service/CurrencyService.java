@@ -25,7 +25,7 @@ public class CurrencyService {
             prop.load(inputStream);
             this.url = prop.getProperty("awesomeapi.url");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante a aquisição da URL: " + e);
         }
         client = new ClientHttp();
     }

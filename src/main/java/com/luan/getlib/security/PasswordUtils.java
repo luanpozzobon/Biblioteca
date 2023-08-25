@@ -36,8 +36,8 @@ public class PasswordUtils {
             byte[] hashedBytes = md.digest(saltedPassword.getBytes());
             return Base64.getEncoder().encodeToString(hashedBytes);
         } catch(NoSuchAlgorithmException e){
-            e.printStackTrace();
-            return "";
+            System.out.println("Algoritmo de encriptação não suportado: " + e);
+            return null;
         }
     }
 }

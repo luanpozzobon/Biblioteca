@@ -7,7 +7,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * @since v0.2.1
@@ -26,7 +25,7 @@ public class OperationDAO {
             
             return st.executeUpdate() == 1;
         } catch (SQLException e){
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
             return false;
         }
     }
@@ -46,7 +45,7 @@ public class OperationDAO {
                                  rSet.getDate("op_date").toLocalDate(),
                                  rSet.getDouble("value"));
         } catch(SQLException e) {
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
             return null;
         }
     }
@@ -66,10 +65,12 @@ public class OperationDAO {
                                                  rSet.getInt("customer_id"),
                                                  rSet.getDate("op_date").toLocalDate(),
                                                  rSet.getDouble("value"));
+            
+            return null;
         } catch(SQLException e){
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
+            return null;
         }
-        return null;
     }
     
     public static boolean updateOperation(Operation operation){
@@ -83,7 +84,7 @@ public class OperationDAO {
             
             return st.executeUpdate() == 1;
         } catch(SQLException e) {
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
             return false;
         }
     }
@@ -96,7 +97,7 @@ public class OperationDAO {
             
             return st.executeUpdate() == 1;
         } catch(SQLException e) {
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
             return false;
         }
     }

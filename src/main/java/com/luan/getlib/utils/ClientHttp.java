@@ -21,11 +21,12 @@ public class ClientHttp {
                 return response.body();
             } else {
                 System.out.println("Erro ao consultar a URL!");
+                return "";
             }
             
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            System.out.println("Ocorreu uma falha durante a consulta à URL: " + e);
+            return "";
         }
-        return "";
     }
 }

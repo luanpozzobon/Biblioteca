@@ -34,7 +34,7 @@ public class CustomerDAO {
             return true;
             
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
             return false;
         }
     }
@@ -57,11 +57,12 @@ public class CustomerDAO {
                                                 rSet.getString("username"),
                                                 rSet.getString("salt"),
                                                 rSet.getString("password"));
+            
+            return null;
         } catch(SQLException e){
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
+            return null;
         }
-        
-        return null;
     }
     
     public static Customer findByUsername(String username){
@@ -72,10 +73,12 @@ public class CustomerDAO {
             
             if(rSet.next()) return new Customer(rSet.getInt("customer_id"),
                                                 rSet.getString("username"));
+            
+            return null;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
+            return null;
         }
-        return null;
     }
     
     public static boolean usernameExists(String username){
@@ -95,9 +98,9 @@ public class CustomerDAO {
             st.setString(7, cst.getPassword());
             st.setInt(8, cst.getId());
             
-            return st.executeUpdate() == 1;           
+            return st.executeUpdate() == 1;      
         } catch(SQLException e) {
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
             return false;
         }
     }

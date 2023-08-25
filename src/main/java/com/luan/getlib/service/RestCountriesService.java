@@ -23,7 +23,7 @@ public class RestCountriesService {
             prop.load(inputStream);
             this.url = prop.getProperty("countries.url");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante a aquisição da URL: " + e);
         }
         
         client = new ClientHttp();

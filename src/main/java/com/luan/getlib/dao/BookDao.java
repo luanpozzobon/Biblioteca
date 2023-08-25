@@ -26,7 +26,7 @@ public class BookDao {
             
             return st.executeUpdate() == 1;
         } catch(SQLException e){
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
             return false;
         }
     }
@@ -45,10 +45,12 @@ public class BookDao {
                                             rSet.getDouble("value"),
                                             rSet.getInt("parentalRating"));
             
+            return null;
+            
         } catch(SQLException e){
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
+            return null;
         }
-        return null;
     }
     
     public static List<Book> findByTitle(String title){
@@ -67,7 +69,7 @@ public class BookDao {
             }
             return books;
         } catch(SQLException e){
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
             return null;
         }
     }
@@ -85,7 +87,7 @@ public class BookDao {
             }
             return books;
         } catch(SQLException e){
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
             return null;
         }
     }
@@ -100,7 +102,7 @@ public class BookDao {
             
             return st.executeUpdate() == 1;
         } catch(SQLException e){
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
             return false;
         }
     }

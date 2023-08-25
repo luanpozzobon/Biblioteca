@@ -18,10 +18,10 @@ public class Database {
         Properties prop = new Properties();
         try(InputStream inputStream = Database.class.getClassLoader().getResourceAsStream(PROPERTIES)){
             prop.load(inputStream);
+            return DriverManager.getConnection(prop.getProperty("db.url"), prop.getProperty("db.username"), prop.getProperty("db.password"));
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante a aquisição da URL: " + e);
+            return null;
         }
-        
-        return DriverManager.getConnection(prop.getProperty("db.url"), prop.getProperty("db.username"), prop.getProperty("db.password"));
     }
 }

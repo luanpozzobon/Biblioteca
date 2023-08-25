@@ -5,12 +5,12 @@ package com.luan.getlib.models;
  * @author luanpozzobon
  */
 public class Address {
-    private String nation;
-    private String state;
-    private String city;
+    private final String nation;
+    private final String state;
+    private final String city;
     private String street;
     private String number;
-    private String zipCode;
+    private final String zipCode;
 
     public Address() {
         this.nation = null;

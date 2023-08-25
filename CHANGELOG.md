@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.0.0] - 2023-08-25
+
+### Added
+
+- Adicionado método `findById` no `EmployeeDAO`.
+- Adicionado mensagens de erro, na classe `InputReader`.
+- Adicionado método de fechamento do Scanner na classe `InputReader`.
+- Adicionado método `updateEmployee` na classe `EmployeeDAO`.
+- Adicionado arquivo executável.
+
+### Changed
+
+- Alteradas mensagens de erro nas classes de banco de dados e de API.
+- O método `findByAccessCode` agora retorna um objeto apenas com id e o accessCode.
+- O método `findByAccessCode` não utiliza mais um construtor passando o ResultSet.
+
+### Removed
+
+- Removido construtor de `Employee` que recebia um ResultSet.
+
+### Fixed
+
+- Alteração de senha do funcionário é realizada a partir do método `updateEmployee`, anteriormente o método tentava criar um novo funcionário.
+
+
 ## [0.2.1] - 2023-08-24
 
 ### Added
@@ -21,6 +46,7 @@
 
 - Removido construtor de `Customer` que utilizava ResultSet.
 
+
 ## [0.2.0] - 2023-08-22
 
 ### Added
@@ -40,6 +66,7 @@
 
 - Removido método `passwordMatch` na classe `DataValidator`.
 
+
 ## [0.1.2] - 2023-08-19
 
 ### Added
@@ -52,6 +79,7 @@
 ### Changed
 
 - Alterado estrutura de "telas".
+
 
 ## [0.1.1] - 2023-08-17
 
@@ -66,6 +94,7 @@
 ### Changed
 
 - Alterado tipo de dado para a data de nascimento (String -> LocalDate).
+
 
 ## [0.1.0] - 2023-08-14
 

@@ -85,6 +85,7 @@ public class RegistrationScreen {
             System.out.println("Cliente cadastrado com sucesso! Você pode acessar sua conta imediatamente!");
         }
     }
+    
     public static void employee(){
         System.out.print("Nome Completo: ");
         fullname = sc.getNextLine();

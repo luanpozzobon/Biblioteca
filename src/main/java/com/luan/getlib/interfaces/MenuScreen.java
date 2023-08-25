@@ -57,7 +57,7 @@ public class MenuScreen {
                     System.out.print("Nova senha: ");
                     password = sc.getNextLine();
                     System.out.print("Confirme a senha: ");
-                    while (DataValidator.isPasswordValid(password, sc.getNextLine())){
+                    while (!DataValidator.isPasswordValid(password, sc.getNextLine())){
                         System.out.println("Tente novamente!");
                         System.out.print("Nova senha: ");
                         password = sc.getNextLine();
@@ -67,7 +67,7 @@ public class MenuScreen {
                     emp.setSalt(salt = PasswordUtils.generateSalt());
                     emp.setPassword(password = PasswordUtils.encryptPassword(password, salt));
                     
-                    if(EmployeeDAO.saveEmployee(emp)){
+                    if(EmployeeDAO.updateEmployee(emp)){
                         System.out.println("Senha alterada com sucesso!");
                     } else {
                         System.out.println("Ocorreu um erro ao salvar a nova senha. Tente novamente mais tarde!");
@@ -84,7 +84,7 @@ public class MenuScreen {
                     title = sc.getNextLine();
                     if(!listBooks(title)) {
                         System.out.println("A busca não encontrou nenhuma correspondência!");
-                        System.out.print("Deseja adicionar um novo livro (y/n)? ");
+                        System.out.print("Deseja adicionar um novo livro? (y/n) ");
                         switch(sc.getNext()){
                             case 'y':
                                 System.out.print("Título: ");
@@ -131,7 +131,7 @@ public class MenuScreen {
                                 System.out.print("Quantidade a inserir: ");
                                 amount = sc.getNextInt();
                                 System.out.println("Nova quantidade: " + (book.getAmount() + amount));
-                                System.out.print("Confirma a operação? (y/n)");
+                                System.out.print("Confirma a operação? (y/n) ");
                                 switch(sc.getNext()){
                                     case 'y':
                                         book.setAmount(book.getAmount() + amount);
@@ -148,7 +148,7 @@ public class MenuScreen {
                                 System.out.print("Quantidade a remover: ");
                                 amount = sc.getNextInt();
                                 System.out.println("Livros restantes: " + (book.getAmount() - amount));
-                                System.out.print("Confirma a operação? (y/n)");
+                                System.out.print("Confirma a operação? (y/n) ");
                                 switch(sc.getNext()){
                                     case 'y':
                                         book.setAmount(book.getAmount() - amount);
@@ -164,7 +164,7 @@ public class MenuScreen {
                                 System.out.println("Valor anterior: $" + book.getValue());
                                 System.out.print("Novo Valor: $");
                                 value = sc.getNextDouble();
-                                System.out.println("Confirma a operação? (y/n)");
+                                System.out.print("Confirma a operação? (y/n) ");
                                 switch(sc.getNext()){
                                     case 'y':
                                         book.setValue(value);
@@ -195,7 +195,6 @@ public class MenuScreen {
                 case 0:
                     return;
                 case 1:
-                    // TODO
                     System.out.println("Selecione o que deseja alterar: ");
                     System.out.println("1-Endereço");
                     System.out.println("2-E-Mail");
@@ -207,6 +206,8 @@ public class MenuScreen {
                         case 0:
                             break;
                         case 1:
+                            System.out.print("CEP: ");
+                            zipCode = sc.getNextLine();
                             if((address = zip.getAddressByZipCode(zipCode)) == null){
                                 System.out.println("Não foi possível encontrar o CEP fornecido! Preencha as informações manualmente!");
                                 System.out.print("País: ");
@@ -427,9 +428,5 @@ public class MenuScreen {
         } else {
             System.out.println("Occoreu um erro ao alterar o cadastro! Tente novamente mais tarde!");
         }
-    }
-    
-    private static void purchaseBook(){
-        
     }
 }

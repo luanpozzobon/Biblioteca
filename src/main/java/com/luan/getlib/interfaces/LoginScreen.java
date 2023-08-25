@@ -25,6 +25,7 @@ public class LoginScreen {
                 System.out.println("Verifique se o código de acesso foi digitado corretamente e tente novamente");
                 continue;
             }
+            emp = EmployeeDAO.findById(emp.getId());
             System.out.print("Digite sua senha: ");
             String password = PasswordUtils.encryptPassword(sc.getNextLine(), emp.getSalt());
             if(!DataValidator.arePasswordsEqual(emp.getPassword(), password)){

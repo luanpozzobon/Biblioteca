@@ -80,8 +80,6 @@ public class Operation {
         this.value = value;
     }
     
-    
-    
     public double calculateRentValue(){
         int period = Period.between(operationDate, LocalDate.now()).getDays();
         return period > 5 ? value * (period - 5) : 0;

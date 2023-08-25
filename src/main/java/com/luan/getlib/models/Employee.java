@@ -1,8 +1,6 @@
 package com.luan.getlib.models;
 
 import com.luan.getlib.dao.EmployeeDAO;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Random;
 
 /**
@@ -17,20 +15,15 @@ public class Employee {
     private String accessCode;  // Código de acesso (Gerado automaticamente / Único)
     private String salt;        // Salting da senha
     private String password;    // Senha encriptada
-
-    public Employee(ResultSet rSet){
-        try{
-            id = rSet.getInt("id");
-            fullName = rSet.getString("fullName");
-            email = rSet.getString("email");
-            phone = rSet.getString("phone");
-            accessCode = rSet.getString("accessCode");
-            salt = rSet.getString("salt");
-            password = rSet.getString("password");
-        } catch(SQLException e) {
-            e.printStackTrace();
-        }
-        
+    
+    public Employee(){
+        this.id = 0;
+        this.fullName = null;
+        this.email = null;
+        this.phone = null;
+        this.accessCode = null;
+        this.salt = null;
+        this.password = null;
     }
     
     public Employee(String fullName, String email, String phone) {
@@ -38,15 +31,20 @@ public class Employee {
         this.email = email;
         this.phone = phone;
     }
-    
-    public Employee(){
-        this.id = 0;
-        this.fullName = "";
-        this.email = "";
-        this.phone = "";
-        this.accessCode = "";
-        this.salt = "";
-        this.password = "";
+
+    public Employee(int id, String accessCode) {
+        this.id = id;
+        this.accessCode = accessCode;
+    }
+
+    public Employee(int id, String fullName, String email, String phone, String accessCode, String salt, String password) {
+        this.id = id;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.accessCode = accessCode;
+        this.salt = salt;
+        this.password = password;
     }
 
     public int getId() {

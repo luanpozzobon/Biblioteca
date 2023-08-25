@@ -28,9 +28,9 @@ public class Getlib {
 
             switch(sc.getNextInt()){
                 case 0:
+                    sc.closeScanner();
                     System.exit(0);
                 case 1:
-                    // TODO - Login
                     System.out.println("1-Cliente");
                     System.out.println("2-Funcionário");
                     System.out.println("0-Voltar");
@@ -70,6 +70,7 @@ public class Getlib {
                     break;
                 case 3:
                     // TODO - Termos de Uso
+                    System.out.println("Ainda não implementado!");
                     break;
                 default:
                     System.out.println("Opção Inválida! Tente novamente!");

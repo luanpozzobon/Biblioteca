@@ -26,14 +26,13 @@ public class ZipCodeService {
             prop.load(inputStream);
             this.url = prop.getProperty("zipcode.url") + prop.getProperty("zipcode.key");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Ocorreu um erro durante a aquisição da URL: " + e);
         }
         client = new ClientHttp();
     }
     
     public Address getAddressByZipCode(String zipCode){
         String response = client.getBody(url + "&codes=" + zipCode);
-//        String response = "{\"query\":{\"codes\":[\"80520250\"],\"country\":null},\"results\":{\"80520250\":[{\"postal_code\":\"80520-250\",\"country_code\":\"BR\",\"latitude\":\"-25.50390000\",\"longitude\":\"-49.29080000\",\"city\":\"Bom Retiro\",\"state\":\"\",\"city_en\":\"Curitiba\",\"state_en\":\"Parana\",\"state_code\":\"18\",\"province\":\"Curitiba\",\"province_code\":\"4106902\"}]}}";
         if(response.equals("")){
             return null;
         }
