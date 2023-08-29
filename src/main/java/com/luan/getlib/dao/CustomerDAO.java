@@ -87,18 +87,32 @@ public class CustomerDAO {
     
     public static boolean updateCustomer(Customer cst) {
         try(Connection conn = Database.getConnection();
-            PreparedStatement st = conn.prepareStatement("UPDATE customers SET address = ?, currency = ?, email = ?, phone = ?, username = ?, salt = ?, password = ? WHERE customer_id = ?")){
+            PreparedStatement st = conn.prepareStatement("UPDATE customers SET address = ?, currency = ?, email = ?, phone = ?, username = ?, credits = ?, salt = ?, password = ? WHERE customer_id = ?")){
             
             st.setString(1, cst.getAddress().toString());
             st.setString(2, cst.getCurrency());
             st.setString(3, cst.getEmail());
             st.setString(4, cst.getPhone());
             st.setString(5, cst.getUsername());
-            st.setString(6, cst.getSalt());
-            st.setString(7, cst.getPassword());
-            st.setInt(8, cst.getId());
+            st.setDouble(6, cst.getCredits());
+            st.setString(7, cst.getSalt());
+            st.setString(8, cst.getPassword());
+            st.setInt(9, cst.getId());
             
             return st.executeUpdate() == 1;      
+        } catch(SQLException e) {
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
+            return false;
+        }
+    }
+    
+    public static boolean deleteCustomer(Customer cst) {
+        try(Connection conn = Database.getConnection();
+            PreparedStatement st = conn.prepareStatement("DELETE FROM customers WHERE customer_id = ?")){
+            
+            st.setInt(1, cst.getId());
+            
+            return st.executeUpdate() == 1;
         } catch(SQLException e) {
             System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
             return false;

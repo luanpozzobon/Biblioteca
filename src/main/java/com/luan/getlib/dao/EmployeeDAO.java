@@ -88,4 +88,17 @@ public class EmployeeDAO {
     public static boolean accessCodeExists(String accessCode){
         return findByAccessCode(accessCode) != null;
     }
+    
+    public static boolean deleteEmployee(Employee employee){
+        try(Connection conn = Database.getConnection();
+            PreparedStatement st = conn.prepareStatement("DELETE FROM employees WHERE employee_id = ?")){
+            
+            st.setInt(1, employee.getId());
+            
+            return st.executeUpdate() == 1;
+        } catch(SQLException e) {
+            System.out.println("Ocorreu um erro durante o acesso ao banco de dados: " + e);
+            return false;
+        }
+    }
 }

@@ -23,7 +23,6 @@ public class Getlib {
             System.out.println("Para ter acesso a uma grande variedade de livros, acesse ou crie sua conta agora mesmo!");
             System.out.println("1-Login");
             System.out.println("2-Cadastrar");
-            System.out.println("3-Termos de Uso");
             System.out.println("0-Sair");
 
             switch(sc.getNextInt()){
@@ -68,17 +67,9 @@ public class Getlib {
                             break;
                     }
                     break;
-                case 3:
-                    // TODO - Termos de Uso
-                    System.out.println("Ainda não implementado!");
-                    break;
                 default:
                     System.out.println("Opção Inválida! Tente novamente!");
             }
         }
-    }
-    
-    private static void readTerms(){
-        // TODO
     }
 }

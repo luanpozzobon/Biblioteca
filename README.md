@@ -19,6 +19,8 @@ Biblioteca digital para aluguel e compra de livros.
 * <b>Aluguel</b>: É possível realizar o alguel de livros (gratuito até 5 dias).
 * <b>Devolução</b>: Caso o livro esteja alugado, é possível fazer a devolução.
 * <b>Compra</b>: É possível fazer a aquisição permanente de um livro (caso esteja alugado, o valor do aluguel não será cobrado, apenas o valor da compra).
+* <b>Troca e devolução</b>: É possível trocar livros, e devolvê-los (em até 7 dias).
+* <b>Exclusão de conta</b>: É possível deletar as contas de cliente (caso não haja livros alugados) e funcionários.
 
 ## :wrench: Tecnologias utilizadas
 * Java 19
@@ -41,9 +43,7 @@ java -jar ./Getlib-1.0.0.jar
 ```
 
 ## :soon: Implementação futura
-* Lista de livros (comprados e alugados).
 * Lista de desejos.
-* Recarga de créditos para aquisição de livros
 
 ## :handshake: Colaboradores
 <table>

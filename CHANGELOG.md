@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.1.0] - 2023-08-29
+
+### Added
+
+- Adicionado função para listar meus livros.
+- Adicionado método `findByCustomer` em `OperationDAO`.
+- Adicionado método `findRentByCustomerId` em `OperationsDAO`.
+- Adicionado recarga de créditos para Clientes.
+- Adicionado devolução e troca de livros comprados.
+- Adicionado deleção de contas.
+
+### Removed
+
+- Removido método `findRentByBookAndCustomer`.
+
 ## [1.0.0] - 2023-08-25
 
 ### Added
