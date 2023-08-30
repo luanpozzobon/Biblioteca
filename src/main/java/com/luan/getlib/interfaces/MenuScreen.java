@@ -25,10 +25,9 @@ import java.util.Map;
  * @author luanpozzobon
  */
 public class MenuScreen {
-    private static final InputReader sc = new InputReader();
     private static final ZipCodeService zip = new ZipCodeService();
-    private static RestCountriesService curr = new RestCountriesService();
-    private static CurrencyService currConvert = new CurrencyService();
+    private static final RestCountriesService curr = new RestCountriesService();
+    private static final CurrencyService currConvert = new CurrencyService();
     private static String zipCode, nation, state, city, street, number, currency, email, phone, username, password, salt;
     private static String title, genre;
     private static int amount, parentalRating;
@@ -42,12 +41,12 @@ public class MenuScreen {
     private static Map<String, Operation> myBooks;
     
     
-    public static void employee(Employee emp){
+    public static void employee(Employee emp, InputReader sc){
         System.out.println("Bem-Vindo " + emp.getFullName());
         while(true){
             exit = 'n';
             System.out.println("Selecione uma opção:");
-            System.out.println("1-Alterar cadastro");
+            System.out.println("1-Editar cadastro");
             System.out.println("2-Listar livros");
             System.out.println("3-Buscar livros");
             System.out.println("0-Sair");
@@ -210,7 +209,7 @@ public class MenuScreen {
         }
     }
     
-    public static void customer(Customer cst){
+    public static void customer(Customer cst, InputReader sc){
         System.out.println("Bem-Vindo " + cst.getFullName());
         while (true) {
             exit = 'n';
@@ -305,6 +304,10 @@ public class MenuScreen {
                             System.out.print("Deseja realmente excluir sua conta? (y/n) ");
                             switch(sc.getNext()){
                                 case 'y':
+                                    if(cst.getCredits() < 0){
+                                        System.out.println("Não é possível encerrar a conta! Você ainda possui ainda possui débitos!");
+                                        break;
+                                    }
                                     if((operations = OperationDAO.findRentByCustomer(cst.getId())) != null){
                                         if(operations.isEmpty()){
                                             System.out.print("Digite sua senha para confirmar a operação: ");
@@ -318,7 +321,7 @@ public class MenuScreen {
                                                 System.out.println("Senha incorreta");
                                             }
                                         } else {
-                                            System.out.println("Não é possível deletar a conta pois você ainda possui livros alugados!");
+                                            System.out.println("Não é possível encerrar a conta! Você ainda possui livros alugados!");
                                         }
                                     }
                                 case 'n':
@@ -345,7 +348,7 @@ public class MenuScreen {
                             exit = 'n';
                             do{
                                 operation = OperationDAO.findByBookAndCustomer(book.getId(), cst.getId());
-                                bookMenu(book, operation, cst);
+                                bookMenu(book, operation, cst, sc);
                             } while (exit != 'y');
                         }
                     }
@@ -361,7 +364,7 @@ public class MenuScreen {
                             book = BookDao.findById(Integer.parseInt(String.valueOf(opt)));
                             if(myBooks.containsKey(book.getTitle())){
                                 operation = myBooks.get(book.getTitle());
-                                bookMenu(book, operation, cst);
+                                bookMenu(book, operation, cst, sc);
                             }
                             break;
                     }
@@ -380,7 +383,7 @@ public class MenuScreen {
         }        
     }
     
-    private static void bookMenu(Book book, Operation operation, Customer cst){
+    private static void bookMenu(Book book, Operation operation, Customer cst, InputReader sc){
         value = currConvert.convertFromUSD(book.getValue(), cst.getCurrency());
         System.out.println("\nId: " + book.getId());
         System.out.println("Título: " + book.getTitle());
@@ -549,6 +552,7 @@ public class MenuScreen {
                     System.out.print("Confirma a compra? (y/n) ");
                     switch(sc.getNext()){
                         case 'y':
+                            operation = new Operation();
                             operation.setType('p');
                             operation.setOperationDate(LocalDate.now());
                             operation.setValue(value);
@@ -596,7 +600,7 @@ public class MenuScreen {
             for(String key : myBooks.keySet()){
                 System.out.println("\nId: " + myBooks.get(key).getBookId());
                 System.out.println("Título: " + key);
-                System.out.println("Tipo: " + myBooks.get(key).getType());
+                System.out.println("Tipo: " + myBooks.get(key).getTypeAsString());
             }
         }
     }

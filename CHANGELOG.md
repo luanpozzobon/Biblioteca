@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1] - 2023-08-30
+
+### Added
+
+- Adicionado função de formatação do Zip Code, para retirar caracteres especiais.
+- Adicionado função de formatação de data, para aceitar diferentes formatos de entrada de data.
+
+
 ## [1.1.0] - 2023-08-29
 
 ### Added

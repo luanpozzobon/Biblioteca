@@ -43,7 +43,6 @@ java -jar ./Getlib-1.0.0.jar
 ```
 
 ## :soon: Implementação futura
-* Lista de desejos.
 
 ## :handshake: Colaboradores
 <table>

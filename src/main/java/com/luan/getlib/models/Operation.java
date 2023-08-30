@@ -15,6 +15,8 @@ public class Operation {
     private LocalDate operationDate;
     private double value;
 
+    public Operation(){}
+
     public Operation(char type, int bookId, int customerId, LocalDate operationDate, double value) {
         this.type = type;
         this.bookId = bookId;
@@ -38,6 +40,10 @@ public class Operation {
 
     public char getType() {
         return type;
+    }
+    
+    public String getTypeAsString(){
+        return type == 'r' ? "Aluguel" : "Compra";
     }
 
     public int getBookId() {

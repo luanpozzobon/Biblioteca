@@ -12,10 +12,8 @@ import com.luan.getlib.utils.InputReader;
  * @since v0.1.2
  * @author luanpozzobon
  */
-public class LoginScreen {
-    private static final InputReader sc = new InputReader();
-    
-    public static Employee employee(){
+public class LoginScreen {    
+    public static Employee employee(InputReader sc){
         while(true){
             System.out.print("Digite seu código de acesso: ");
             String accessCode = sc.getNextLine();
@@ -36,7 +34,7 @@ public class LoginScreen {
         }
     }
     
-    public static Customer customer(){
+    public static Customer customer(InputReader sc){
         while(true){
             System.out.print("Digite seu nome de usuário: ");
             String username = sc.getNextLine();

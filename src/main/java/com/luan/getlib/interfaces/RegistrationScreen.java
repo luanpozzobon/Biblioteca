@@ -18,19 +18,20 @@ import java.time.LocalDate;
  * @author luanpozzobon
  */
 public class RegistrationScreen {
-    private static final InputReader sc = new InputReader();
     private static final ZipCodeService zip = new ZipCodeService();
     private static String fullname, zipCode, nation, state, city, street, number, email, phone, currency, salt, password;
     private static LocalDate birthDate;
     
-    public static void customer(){
+    public static void customer(InputReader sc){
         RestCountriesService curr = new RestCountriesService();
         System.out.print("Nome Completo: ");
         fullname = sc.getNextLine();
-        System.out.print("Data de Nascimento (aaaa-mm-dd): ");
-        birthDate = DataFormatter.formatDate(sc.getNextLine());
+        do{
+            System.out.print("Data de Nascimento: ");
+        } while((birthDate = DataFormatter.formatDate(sc.getNextLine())) == null);
+        System.out.println(birthDate);
         System.out.print("CEP: ");
-        zipCode = sc.getNextLine();
+        zipCode = DataFormatter.formatZipCode(sc.getNextLine());
         Address add;
         if((add = zip.getAddressByZipCode(zipCode)) == null){
             System.out.println("Não foi possível encontrar o CEP fornecido! Preencha as informações manualmente!");
@@ -86,11 +87,13 @@ public class RegistrationScreen {
         }
     }
     
-    public static void employee(){
+    public static void employee(InputReader sc){
         System.out.print("Nome Completo: ");
         fullname = sc.getNextLine();
-        System.out.print("Data de nascimento (aaaa-mm-dd): ");
-        if(!DataValidator.isOldEnough(DataFormatter.formatDate(sc.getNextLine()), 18)){
+        do{
+            System.out.print("Data de nascimento: ");
+        } while((birthDate = DataFormatter.formatDate(sc.getNextLine())) == null);
+        if(!DataValidator.isOldEnough(birthDate, 18)){
             System.out.println("Não é possível cadastrá-lo como funcionário! É necessário ter no mínimo 18 anos!");
             return;
         }
@@ -101,7 +104,7 @@ public class RegistrationScreen {
 
         Employee emp = new Employee(fullname, email, phone);
         emp.setAccessCode(emp.generateAccessCode());
-
+ 
         System.out.printf("Quase lá! O seu código de acesso é: %s\n", emp.getAccessCode());
         System.out.print("Defina uma senha: ");
         password = sc.getNextLine();
