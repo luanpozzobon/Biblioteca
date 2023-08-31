@@ -31,38 +31,40 @@ public class DataValidator {
         return true;
     }
     
-    public static boolean isPasswordValid(String password, String password2){
-        if(!isLengthValid(password, 8, 32)){
+    public static boolean isPasswordValid(char[] password, char[] password2){
+        String p1 = new String(password);
+        String p2 = new String(password2);
+        if(!isLengthValid(p1, 8, 32)){
             System.out.println("Senha Inválida! A senha deve conter entre 8 e 32 caracteres!");
             return false;
         }
         
-        if(!hasUppercaseCharacters(password)){
+        if(!hasUppercaseCharacters(p1)){
             System.out.println("Senha Inválida! A senha deve conter pelo menos uma letra maiúscula!");
             return false;
         }
         
-        if(!hasLowercaseCharacters(password)){
-            System.out.println("Senha Iválida! A senha deve conter pelo menos uma letra minúscula!");
+        if(!hasLowercaseCharacters(p1)){
+            System.out.println("Senha Inválida! A senha deve conter pelo menos uma letra minúscula!");
             return false;
         }
         
-        if(!hasNumericCharacters(password)){
-            System.out.println("Senha Iválida! A senha deve conter pelo menos um caractere numérico!");
+        if(!hasNumericCharacters(p1)){
+            System.out.println("Senha Inválida! A senha deve conter pelo menos um caractere numérico!");
             return false;
         }
         
-        if(!hasSpecialCharacters(password)){
-            System.out.println("Senha Iválida! A senha deve conter pelo menos um caractere especial!");
+        if(!hasSpecialCharacters(p1)){
+            System.out.println("Senha Inválida! A senha deve conter pelo menos um caractere especial!");
             return false;
         }
         
-        if(!hasInvalidCharacters(password)){
+        if(!hasInvalidCharacters(p1)){
             System.out.println("Senha Inválida! A senha contém caracteres inválidos!");
             return false;
         }
         
-        if(!arePasswordsEqual(password, password2)){
+        if(!arePasswordsEqual(p1, p2)){
             System.out.println("Senhas não conferem!");
             return false;
         }

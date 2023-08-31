@@ -7,6 +7,7 @@ import com.luan.getlib.models.Employee;
 import com.luan.getlib.security.PasswordUtils;
 import com.luan.getlib.utils.DataValidator;
 import com.luan.getlib.utils.InputReader;
+import java.util.Arrays;
 
 /**
  * @since v0.1.2
@@ -25,11 +26,13 @@ public class LoginScreen {
             }
             emp = EmployeeDAO.findById(emp.getId());
             System.out.print("Digite sua senha: ");
-            String password = PasswordUtils.encryptPassword(sc.getNextLine(), emp.getSalt());
-            if(!DataValidator.arePasswordsEqual(emp.getPassword(), password)){
+            char[] password = PasswordUtils.encryptPassword(sc.getPassword(), emp.getSalt());
+            if(!DataValidator.arePasswordsEqual(new String(emp.getPassword()), new String(password))){
                 System.out.println("Senha Incorreta!");
                 continue;
             }
+            
+            Arrays.fill(password, ' ');
             return emp;
         }
     }
@@ -46,11 +49,13 @@ public class LoginScreen {
             }
             cst = CustomerDAO.findById(cst.getId());
             System.out.print("Digite sua senha: ");
-            String password = PasswordUtils.encryptPassword(sc.getNextLine(), cst.getSalt());
-            if(!DataValidator.arePasswordsEqual(cst.getPassword(), password)){
+            char[] password = PasswordUtils.encryptPassword(sc.getPassword(), cst.getSalt());
+            if(!DataValidator.arePasswordsEqual(new String(cst.getPassword()), new String(password))){
                 System.out.println("Senha Incorreta!");
                 continue;
             }
+            
+            Arrays.fill(password, ' ');
             return cst;
         }
     }

@@ -1,12 +1,22 @@
 # Changelog
 
+## [1.1.2] - 2023-08-31
+
+### Added
+
+- Adicionado objeto da classe `Console` no `InputReader`.
+
+### Changed
+
+- Atualização de dependências: Gson 2.10.1, MySql-Connector 8.0.33.
+- A leitura do console é feita pela classe `Console` e quando não for possível, a leitura é feita pelo `Scanner`.
+
 ## [1.1.1] - 2023-08-30
 
 ### Added
 
 - Adicionado função de formatação do Zip Code, para retirar caracteres especiais.
 - Adicionado função de formatação de data, para aceitar diferentes formatos de entrada de data.
-
 
 ## [1.1.0] - 2023-08-29
 

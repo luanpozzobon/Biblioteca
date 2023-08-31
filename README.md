@@ -32,14 +32,14 @@ Biblioteca digital para aluguel e compra de livros.
 * <b>[API de Cotações](https://docs.awesomeapi.com.br/api-de-moedas)</b>: API de cotação, utilizada para conversão de valores na moeda local do cliente.
 
 ### :hammer: Dependências
-* <b>gson 2.8.8</b>: Dependência para leitura de JSON's.
-* <b>mysql-connector 8.0.26</b>: Dependência para conexão ao banco de dados MySQL.
+* <b>gson 2.10.1</b>: Dependência para leitura de JSON's.
+* <b>mysql-connector 8.0.33</b>: Dependência para conexão ao banco de dados MySQL.
 
 ## :rocket: Rodando o projeto
 Para rodar o repositório é necessário clonar o mesmo, dar o seguinte comando para iniciar o projeto:
 ```
 cd ./dist
-java -jar ./Getlib-1.0.0.jar
+java -jar ./Getlib-1.1.2.jar
 ```
 
 ## :soon: Implementação futura

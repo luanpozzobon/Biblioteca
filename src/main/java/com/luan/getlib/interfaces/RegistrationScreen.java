@@ -12,6 +12,7 @@ import com.luan.getlib.utils.DataFormatter;
 import com.luan.getlib.utils.DataValidator;
 import com.luan.getlib.utils.InputReader;
 import java.time.LocalDate;
+import java.util.Arrays;
 
 /**
  * @since v0.1.2
@@ -19,7 +20,8 @@ import java.time.LocalDate;
  */
 public class RegistrationScreen {
     private static final ZipCodeService zip = new ZipCodeService();
-    private static String fullname, zipCode, nation, state, city, street, number, email, phone, currency, salt, password;
+    private static String fullname, zipCode, nation, state, city, street, number, email, phone, currency;
+    private static char[] salt, password;
     private static LocalDate birthDate;
     
     public static void customer(InputReader sc){
@@ -29,7 +31,6 @@ public class RegistrationScreen {
         do{
             System.out.print("Data de Nascimento: ");
         } while((birthDate = DataFormatter.formatDate(sc.getNextLine())) == null);
-        System.out.println(birthDate);
         System.out.print("CEP: ");
         zipCode = DataFormatter.formatZipCode(sc.getNextLine());
         Address add;
@@ -68,12 +69,12 @@ public class RegistrationScreen {
         }
 
         System.out.print("Defina uma senha: ");
-        password = sc.getNextLine();
+        password = sc.getPassword();
         System.out.print("Confirme a senha: ");
-        while(!DataValidator.isPasswordValid(password, sc.getNextLine())){
+        while(!DataValidator.isPasswordValid(password, sc.getPassword())){
             System.out.println("Tente Novamente!");
             System.out.print("Defina uma senha: ");
-            password = sc.getNextLine();
+            password = sc.getPassword();
             System.out.print("Confirme a senha: ");
         }
 
@@ -85,6 +86,8 @@ public class RegistrationScreen {
         } else {
             System.out.println("Cliente cadastrado com sucesso! Você pode acessar sua conta imediatamente!");
         }
+        Arrays.fill(salt, ' ');
+        Arrays.fill(password, ' ');
     }
     
     public static void employee(InputReader sc){
@@ -107,12 +110,12 @@ public class RegistrationScreen {
  
         System.out.printf("Quase lá! O seu código de acesso é: %s\n", emp.getAccessCode());
         System.out.print("Defina uma senha: ");
-        password = sc.getNextLine();
+        password = sc.getPassword();
         System.out.print("Confirme a senha: ");
-        while(!DataValidator.isPasswordValid(password, sc.getNextLine())){
+        while(!DataValidator.isPasswordValid(password, sc.getPassword())){
             System.out.println("Tente novamente!");
             System.out.print("Defina uma senha: ");
-            password = sc.getNextLine();
+            password = sc.getPassword();
             System.out.print("Confirme a senha: ");
         }
 
@@ -124,5 +127,8 @@ public class RegistrationScreen {
         } else {
             System.out.println("Funcionário cadastrado com sucesso! Você pode acessar sua conta imediatamente!");
         }
+        
+        Arrays.fill(salt, ' ');
+        Arrays.fill(password, ' ');
     }
 }

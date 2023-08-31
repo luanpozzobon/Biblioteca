@@ -3,6 +3,7 @@ package com.luan.getlib.security;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Base64;
 
 /**
@@ -10,9 +11,9 @@ import java.util.Base64;
  * @author luanpozzobon
  */
 public class PasswordUtils {
-    public static String encryptPassword(String password, String salt){
-        String hashedPassword;
-        if((hashedPassword = hashPassword(password, salt)).equals("")){
+    public static char[] encryptPassword(char[] password, char[] salt){
+        char[] hashedPassword;
+        if(Arrays.equals(hashedPassword = hashPassword(password, salt), "".toCharArray())){
             System.out.println("Não foi possível encriptar a senha!");
             return password;
         }
@@ -20,21 +21,25 @@ public class PasswordUtils {
         return hashedPassword;
     }
     
-    public static String generateSalt(){
+    public static char[] generateSalt(){
         SecureRandom sRandom = new SecureRandom();
-        byte[] saltBytes = new byte[16];
-        sRandom.nextBytes(saltBytes);
+        char[] salt = new char[16];
+        for (int i = 0; i < salt.length; ++i){
+            salt[i] = (char) sRandom.nextInt(128);
+        }
         
-        return Base64.getEncoder().encodeToString(saltBytes);
+        return salt;
     }
     
-    private static String hashPassword(String password, String salt){
-        String saltedPassword = salt + password;
+    private static char[] hashPassword(char[] password, char[] salt){
+        char[] saltedPassword = new char[password.length + salt.length];
+        System.arraycopy(salt, 0, saltedPassword, 0, salt.length);
+        System.arraycopy(password, 0, saltedPassword, salt.length, password.length);
         try{
             MessageDigest md = MessageDigest.getInstance("SHA-512");
         
-            byte[] hashedBytes = md.digest(saltedPassword.getBytes());
-            return Base64.getEncoder().encodeToString(hashedBytes);
+            byte[] hashedBytes = md.digest(Arrays.toString(saltedPassword).getBytes());
+            return Base64.getEncoder().encodeToString(hashedBytes).toCharArray();
         } catch(NoSuchAlgorithmException e){
             System.out.println("Algoritmo de encriptação não suportado: " + e);
             return null;

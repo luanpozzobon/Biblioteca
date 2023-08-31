@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 /**
  * @since v0.1.2
@@ -19,8 +20,8 @@ public class EmployeeDAO {
             st.setString(2, emp.getEmail());
             st.setString(3, emp.getPhone());
             st.setString(4, emp.getAccessCode());
-            st.setString(5, emp.getSalt());
-            st.setString(6, emp.getPassword());
+            st.setString(5, Arrays.toString(emp.getSalt()));
+            st.setString(6, Arrays.toString(emp.getPassword()));
             
             st.executeUpdate();
             
@@ -44,8 +45,8 @@ public class EmployeeDAO {
                                                 rSet.getString("email"),
                                                 rSet.getString("phone"),
                                                 rSet.getString("accessCode"),
-                                                rSet.getString("salt"),
-                                                rSet.getString("password"));
+                                                rSet.getString("salt").toCharArray(),
+                                                rSet.getString("password").toCharArray());
             
             return null;
         } catch(SQLException e){
@@ -74,8 +75,8 @@ public class EmployeeDAO {
         try(Connection conn = Database.getConnection();
             PreparedStatement st = conn.prepareStatement("UPDATE employees SET salt = ?, password = ? WHERE employee_id = ?")){
             
-            st.setString(1, employee.getSalt());
-            st.setString(2, employee.getPassword());
+            st.setString(1, Arrays.toString(employee.getSalt()));
+            st.setString(2, Arrays.toString(employee.getPassword()));
             st.setInt(3, employee.getId());
             
             return st.executeUpdate() == 1;

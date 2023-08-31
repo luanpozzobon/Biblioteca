@@ -17,6 +17,7 @@ import com.luan.getlib.utils.DataValidator;
 import com.luan.getlib.utils.InputReader;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,8 @@ public class MenuScreen {
     private static final ZipCodeService zip = new ZipCodeService();
     private static final RestCountriesService curr = new RestCountriesService();
     private static final CurrencyService currConvert = new CurrencyService();
-    private static String zipCode, nation, state, city, street, number, currency, email, phone, username, password, salt;
+    private static String zipCode, nation, state, city, street, number, currency, email, phone, username;
+    private static char[] salt, password;
     private static String title, genre;
     private static int amount, parentalRating;
     private static double value, rentValue;;
@@ -63,12 +65,12 @@ public class MenuScreen {
                             break;
                         case 1:
                             System.out.print("Nova senha: ");
-                            password = sc.getNextLine();
+                            password = sc.getPassword();
                             System.out.print("Confirme a senha: ");
-                            while (!DataValidator.isPasswordValid(password, sc.getNextLine())){
+                            while (!DataValidator.isPasswordValid(password, sc.getPassword())){
                                 System.out.println("Tente novamente!");
                                 System.out.print("Nova senha: ");
-                                password = sc.getNextLine();
+                                password = sc.getPassword();
                                 System.out.print("Confirme a senha: ");
                             }
 
@@ -80,13 +82,16 @@ public class MenuScreen {
                             } else {
                                 System.out.println("Ocorreu um erro ao salvar a nova senha. Tente novamente mais tarde!");
                             }
+                            
+                            Arrays.fill(salt, ' ');
+                            Arrays.fill(password, ' ');
                             break;
                         case 2:
                             System.out.print("Deseja realmente excluir sua conta? (y/n) ");
                             switch(sc.getNext()){
                                 case 'y':
                                     System.out.print("Digite sua senha para confirmar a operação: ");
-                                    if(DataValidator.arePasswordsEqual(PasswordUtils.encryptPassword(sc.getNextLine(), emp.getSalt()), emp.getPassword())){
+                                    if(DataValidator.arePasswordsEqual(new String(PasswordUtils.encryptPassword(sc.getPassword(), emp.getSalt())), new String(emp.getPassword()))){
                                         if(EmployeeDAO.deleteEmployee(emp)){
                                             emp = new Employee();
                                             System.out.println("Cadastro excluído com sucesso!");
@@ -287,18 +292,21 @@ public class MenuScreen {
                             break;
                         case 5:
                             System.out.print("Nova senha: ");
-                            password = sc.getNextLine();
+                            password = sc.getPassword();
                             System.out.print("Confirme a senha: ");
-                            while(!DataValidator.isPasswordValid(password, sc.getNextLine())){
+                            while(!DataValidator.isPasswordValid(password, sc.getPassword())){
                                 System.out.println("Tente novamente!");
                                 System.out.print("Nova senha: ");
-                                password = sc.getNextLine();
+                                password = sc.getPassword();
                                 System.out.print("Confirme a senha: ");
                             }
                             
                             salt = PasswordUtils.generateSalt();
                             cst.setPassword(password = PasswordUtils.encryptPassword(password, salt));
                             updateCustomer(cst);
+                            
+                            Arrays.fill(salt, ' ');
+                            Arrays.fill(password, ' ');
                             break;
                         case 6:
                             System.out.print("Deseja realmente excluir sua conta? (y/n) ");
@@ -311,7 +319,7 @@ public class MenuScreen {
                                     if((operations = OperationDAO.findRentByCustomer(cst.getId())) != null){
                                         if(operations.isEmpty()){
                                             System.out.print("Digite sua senha para confirmar a operação: ");
-                                            if(DataValidator.arePasswordsEqual(PasswordUtils.encryptPassword(sc.getNextLine(), cst.getSalt()), cst.getPassword())){
+                                            if(DataValidator.arePasswordsEqual(new String(PasswordUtils.encryptPassword(sc.getPassword(), cst.getSalt())), new String(cst.getPassword()))){
                                                 if(CustomerDAO.deleteCustomer(cst)){
                                                     cst = new Customer();
                                                     System.out.println("Cadastro excluído com sucesso!");

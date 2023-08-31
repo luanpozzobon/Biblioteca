@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.util.Arrays;
 
 /**
  * @since v0.1.1
@@ -26,8 +27,8 @@ public class CustomerDAO {
             st.setString(6, cst.getPhone());
             st.setString(7, cst.getUsername());
             st.setDouble(8, cst.getCredits());
-            st.setString(9, cst.getSalt());
-            st.setString(10, cst.getPassword());
+            st.setString(9, new String(cst.getSalt()));
+            st.setString(10, new String(cst.getPassword()));
             
             st.executeUpdate();
             
@@ -55,8 +56,8 @@ public class CustomerDAO {
                                                 rSet.getDouble("credits"),
                                                 rSet.getString("currency"),
                                                 rSet.getString("username"),
-                                                rSet.getString("salt"),
-                                                rSet.getString("password"));
+                                                rSet.getString("salt").toCharArray(),
+                                                rSet.getString("password").toCharArray());
             
             return null;
         } catch(SQLException e){
@@ -95,8 +96,8 @@ public class CustomerDAO {
             st.setString(4, cst.getPhone());
             st.setString(5, cst.getUsername());
             st.setDouble(6, cst.getCredits());
-            st.setString(7, cst.getSalt());
-            st.setString(8, cst.getPassword());
+            st.setString(7, Arrays.toString(cst.getSalt()));
+            st.setString(8, Arrays.toString(cst.getPassword()));
             st.setInt(9, cst.getId());
             
             return st.executeUpdate() == 1;      

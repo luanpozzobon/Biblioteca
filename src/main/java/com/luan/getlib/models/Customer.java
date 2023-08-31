@@ -5,6 +5,7 @@ package com.luan.getlib.models;
  * @author luanpozzobon
  */
 import java.time.LocalDate;
+import java.util.Arrays;
 
 public class Customer {
     private int id;             // Id de identificação do usuário
@@ -16,8 +17,8 @@ public class Customer {
     private double credits;     // Valor na moeda do usuário (Cashback, descontos, etc)
     private String currency;    // Moeda local do usuário, p/ cálculo de conversão de valores
     private String username;    // Criado pelo usuário 
-    private String salt;        // Salting da senha
-    private String password;    // Senha encriptada
+    private char[] salt;        // Salting da senha
+    private char[] password;    // Senha encriptada
 
     public Customer() {
         this.id = 0;
@@ -28,8 +29,8 @@ public class Customer {
         this.phone = null;
         this.credits = 0;
         this.username = null;
-        this.salt = null;
-        this.password = null;
+        this.salt = new char[16];
+        this.password = new char[88];
     }
     
     public Customer(int id, String username){
@@ -37,7 +38,7 @@ public class Customer {
         this.username = username;
     }
     
-    public Customer(String fullName, LocalDate birthDate, Address address, String email, String phone, double credits, String currency, String username, String salt, String password) {
+    public Customer(String fullName, LocalDate birthDate, Address address, String email, String phone, double credits, String currency, String username, char[] salt, char[] password) {
         this.fullName = fullName;
         this.birthDate = birthDate;
         this.address = address;
@@ -50,7 +51,7 @@ public class Customer {
         this.password = password;
     }
     
-    public Customer(int id, String fullName, LocalDate birthDate, Address address, String email, String phone, double credits, String currency, String username, String salt, String password) {
+    public Customer(int id, String fullName, LocalDate birthDate, Address address, String email, String phone, double credits, String currency, String username, char[] salt, char[] password) {
         this.id = id;
         this.fullName = fullName;
         this.birthDate = birthDate;
@@ -136,19 +137,19 @@ public class Customer {
         this.username = username;
     }
 
-    public String getSalt() {
+    public char[] getSalt() {
         return salt;
     }
 
-    public void setSalt(String salt) {
+    public void setSalt(char[] salt) {
         this.salt = salt;
     }
 
-    public String getPassword() {
+    public char[] getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(char[] password) {
         this.password = password;
     }
 }

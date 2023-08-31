@@ -1,6 +1,7 @@
 package com.luan.getlib.models;
 
 import com.luan.getlib.dao.EmployeeDAO;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -13,8 +14,8 @@ public class Employee {
     private String email;
     private String phone;
     private String accessCode;  // Código de acesso (Gerado automaticamente / Único)
-    private String salt;        // Salting da senha
-    private String password;    // Senha encriptada
+    private char[] salt;        // Salting da senha
+    private char[] password;    // Senha encriptada
     
     public Employee(){
         this.id = 0;
@@ -22,8 +23,8 @@ public class Employee {
         this.email = null;
         this.phone = null;
         this.accessCode = null;
-        this.salt = null;
-        this.password = null;
+        Arrays.fill(salt, ' ');
+        Arrays.fill(password, ' ');
     }
     
     public Employee(String fullName, String email, String phone) {
@@ -37,7 +38,7 @@ public class Employee {
         this.accessCode = accessCode;
     }
 
-    public Employee(int id, String fullName, String email, String phone, String accessCode, String salt, String password) {
+    public Employee(int id, String fullName, String email, String phone, String accessCode, char[] salt, char[] password) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -87,19 +88,19 @@ public class Employee {
         this.accessCode = accessCode;
     }
 
-    public String getSalt() {
+    public char[] getSalt() {
         return salt;
     }
 
-    public void setSalt(String salt) {
+    public void setSalt(char[] salt) {
         this.salt = salt;
     }
 
-    public String getPassword() {
+    public char[] getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(char[] password) {
         this.password = password;
     }
     
