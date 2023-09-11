@@ -5,57 +5,54 @@ package com.luan.getlib.models;
  * @author luanpozzobon
  */
 import java.time.LocalDate;
-import java.util.Arrays;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+@Table(name = "customers")
 public class Customer {
+    @Id
+    @Column(name = "customer_id")
     private int id;             // Id de identificação do usuário
+    
+    @Column(name = "fullName")
     private String fullName;
+    
+    @Column(name = "birthDate")
     private LocalDate birthDate;// Validar classificação indicativa do livro
-    private Address address;    // Conversão de moeda (Endereço de cobrança)
+    
+    @Column(name = "address")
+    private String address;    // Conversão de moeda (Endereço de cobrança)
+    
+    @Column(name = "email")
     private String email;
+    
+    @Column(name = "phone")
     private String phone;
+    
+    @Column(name = "credits")
     private double credits;     // Valor na moeda do usuário (Cashback, descontos, etc)
+    
+    @Column(name = "currency")
     private String currency;    // Moeda local do usuário, p/ cálculo de conversão de valores
+    
+    @Column(name = "username")
     private String username;    // Criado pelo usuário 
+    
+    @Column(name = "salt")
     private char[] salt;        // Salting da senha
+    
+    @Column(name = "password")
     private char[] password;    // Senha encriptada
 
-    public Customer() {
-        this.id = 0;
-        this.fullName = null;
-        this.birthDate = null;
-        this.address = null;
-        this.email = null;
-        this.phone = null;
-        this.credits = 0;
-        this.username = null;
-        this.salt = new char[16];
-        this.password = new char[88];
-    }
-    
-    public Customer(int id, String username){
-        this.id = id;
-        this.username = username;
-    }
+    public Customer() { }
     
     public Customer(String fullName, LocalDate birthDate, Address address, String email, String phone, double credits, String currency, String username, char[] salt, char[] password) {
         this.fullName = fullName;
         this.birthDate = birthDate;
-        this.address = address;
-        this.email = email;
-        this.phone = phone;
-        this.credits = credits;
-        this.currency = currency;
-        this.username = username;
-        this.salt = salt;
-        this.password = password;
-    }
-    
-    public Customer(int id, String fullName, LocalDate birthDate, Address address, String email, String phone, double credits, String currency, String username, char[] salt, char[] password) {
-        this.id = id;
-        this.fullName = fullName;
-        this.birthDate = birthDate;
-        this.address = address;
+        this.address = address.toString();
         this.email = email;
         this.phone = phone;
         this.credits = credits;
@@ -89,12 +86,12 @@ public class Customer {
         this.birthDate = birthDate;
     }
 
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
     public void setAddress(Address address) {
-        this.address = address;
+        this.address = address.toString();
     }
 
     public String getCurrency() {

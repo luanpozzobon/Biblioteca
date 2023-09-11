@@ -11,15 +11,6 @@ public class Address {
     private String street;
     private String number;
     private final String zipCode;
-
-    public Address() {
-        this.nation = null;
-        this.state = null;
-        this.city = null;
-        this.street = null;
-        this.number = null;
-        this.zipCode = null;
-    }
     
     public Address(String nation, String state, String city, String zipCode) {
         this.nation = nation;

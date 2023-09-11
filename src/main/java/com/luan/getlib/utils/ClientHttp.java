@@ -11,13 +11,15 @@ import java.net.http.HttpResponse;
  * @author luanpozzobon
  */
 public class ClientHttp {
+    private final int OK_CODE = 200;
+    
     public String getBody(String url){
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder(URI.create(url)).GET().build();
             
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if(response.statusCode() == 200){
+            if(response.statusCode() == OK_CODE){
                 return response.body();
             } else {
                 System.out.println("Erro ao consultar a URL!");

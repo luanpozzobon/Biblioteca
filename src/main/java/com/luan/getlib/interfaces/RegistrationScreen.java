@@ -1,10 +1,11 @@
 package com.luan.getlib.interfaces;
 
-import com.luan.getlib.dao.CustomerDAO;
-import com.luan.getlib.dao.EmployeeDAO;
+import com.luan.getlib.repository.CustomerRepository;
+import com.luan.getlib.repository.EmployeeRepository;
 import com.luan.getlib.models.Address;
 import com.luan.getlib.models.Customer;
 import com.luan.getlib.models.Employee;
+import com.luan.getlib.repository.CustomerRepository;
 import com.luan.getlib.security.PasswordUtils;
 import com.luan.getlib.service.RestCountriesService;
 import com.luan.getlib.service.ZipCodeService;
@@ -81,7 +82,7 @@ public class RegistrationScreen {
         salt = PasswordUtils.generateSalt();
         password = PasswordUtils.encryptPassword(password, salt);
 
-        if(!CustomerDAO.saveCustomer(new Customer(fullname, birthDate, add, email, phone, 50.0, currency, username, salt, password))){
+        if(!CustomerRepository.saveCustomer(new Customer(fullname, birthDate, add, email, phone, 50.0, currency, username, salt, password))){
             System.out.println("Ocorreu um erro ao salvar as informações! Tente novamente mais tarde!");
         } else {
             System.out.println("Cliente cadastrado com sucesso! Você pode acessar sua conta imediatamente!");
@@ -122,7 +123,7 @@ public class RegistrationScreen {
         emp.setSalt(salt = PasswordUtils.generateSalt());
         emp.setPassword(password = PasswordUtils.encryptPassword(password, salt));
 
-        if(!EmployeeDAO.saveEmployee(emp)){
+        if(!EmployeeRepository.saveEmployee(emp)){
             System.out.println("Ocorreu um erro ao salvar as informações! Tente novamente mais tarde!");
         } else {
             System.out.println("Funcionário cadastrado com sucesso! Você pode acessar sua conta imediatamente!");

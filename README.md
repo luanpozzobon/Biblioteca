@@ -1,6 +1,5 @@
 <h1 align="center">:file_cabinet: Getlib</h1>
 
-
 ## :memo: Descrição
 Biblioteca digital para aluguel e compra de livros.
 * O sistema apenas simula uma biblioteca, não é possível comprar ou alugar nenhum livro.
@@ -25,6 +24,7 @@ Biblioteca digital para aluguel e compra de livros.
 ## :wrench: Tecnologias utilizadas
 * Java 19
 * MySQL 5.5.62-0
+* Hibernate
 
 ### :hammer: API's
 * <b>[Zip Code](https://zipcodebase.com/)</b>: API de consulta de zip code (CEP), para auto-preenchimento de endereço.
@@ -38,8 +38,8 @@ Biblioteca digital para aluguel e compra de livros.
 ## :rocket: Rodando o projeto
 Para rodar o repositório é necessário clonar o mesmo, dar o seguinte comando para iniciar o projeto:
 ```
-cd ./dist
-java -jar ./Getlib-1.1.2.jar
+cd ./dist/v1.2.0
+java -jar ./Getlib-1.2.0.jar
 ```
 
 ## :soon: Implementação futura

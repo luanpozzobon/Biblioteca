@@ -1,51 +1,48 @@
 package com.luan.getlib.models;
 
-import com.luan.getlib.dao.EmployeeDAO;
-import java.util.Arrays;
+import com.luan.getlib.repository.EmployeeRepository;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.Random;
 
 /**
  * @since v0.1.0
  * @author luanpozzobon
  */
+@Entity
+@Table(name = "employees")
 public class Employee {
+    
+    @Id
+    @Column(name = "employee_id")
     private int id;             // Id de identificação
+    
+    @Column(name = "fullName")
     private String fullName;
+    
+    @Column(name = "email")
     private String email;
+    
+    @Column(name = "phone")
     private String phone;
+    
+    @Column(name = "accessCode")
     private String accessCode;  // Código de acesso (Gerado automaticamente / Único)
+    
+    @Column(name = "salt")
     private char[] salt;        // Salting da senha
+    
+    @Column(name = "password")
     private char[] password;    // Senha encriptada
     
-    public Employee(){
-        this.id = 0;
-        this.fullName = null;
-        this.email = null;
-        this.phone = null;
-        this.accessCode = null;
-        Arrays.fill(salt, ' ');
-        Arrays.fill(password, ' ');
-    }
+    public Employee(){ }
     
     public Employee(String fullName, String email, String phone) {
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
-    }
-
-    public Employee(int id, String accessCode) {
-        this.id = id;
-        this.accessCode = accessCode;
-    }
-
-    public Employee(int id, String fullName, String email, String phone, String accessCode, char[] salt, char[] password) {
-        this.id = id;
-        this.fullName = fullName;
-        this.email = email;
-        this.phone = phone;
-        this.accessCode = accessCode;
-        this.salt = salt;
-        this.password = password;
     }
 
     public int getId() {
@@ -111,7 +108,7 @@ public class Employee {
         do{
             code = rd.nextInt(1000000);
             accessCode = String.format("%07d", code);
-        } while(EmployeeDAO.accessCodeExists(accessCode));
+        } while(EmployeeRepository.accessCodeExists(accessCode));
         
         return accessCode;
     }

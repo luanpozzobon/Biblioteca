@@ -1,5 +1,11 @@
 package com.luan.getlib.models;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -7,29 +13,38 @@ import java.time.Period;
  * @since v0.2.1
  * @author luanpozzobon
  */
+
+@Entity
+@Table(name = "operations")
 public class Operation {
+    
+    @Id
+    @Column(name = "operation_id")
     private int id;
+    
+    @Column(name = "type")
     private char type;
-    private int bookId;
-    private int customerId;
+    
+    @ManyToOne
+    @JoinColumn(name = "book_id", referencedColumnName = "book_id")
+    private Book book;
+    
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
+    private Customer customer;
+    
+    @Column(name = "op_date")
     private LocalDate operationDate;
+    
+    @Column(name = "value")
     private double value;
 
-    public Operation(){}
+    public Operation(){ }
 
-    public Operation(char type, int bookId, int customerId, LocalDate operationDate, double value) {
+    public Operation(char type, Book book, Customer customer, LocalDate operationDate, double value) {
         this.type = type;
-        this.bookId = bookId;
-        this.customerId = customerId;
-        this.operationDate = operationDate;
-        this.value = value;
-    }
-    
-    public Operation(int id, char type, int bookId, int customerId, LocalDate operationDate, double value) {
-        this.id = id;
-        this.type = type;
-        this.bookId = bookId;
-        this.customerId = customerId;
+        this.book = book;
+        this.customer = customer;
         this.operationDate = operationDate;
         this.value = value;
     }
@@ -46,12 +61,12 @@ public class Operation {
         return type == 'r' ? "Aluguel" : "Compra";
     }
 
-    public int getBookId() {
-        return bookId;
+    public Book getBook() {
+        return book;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
     public LocalDate getOperationDate() {
@@ -70,12 +85,12 @@ public class Operation {
         this.type = type;
     }
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public void setOperationDate(LocalDate operationDate) {

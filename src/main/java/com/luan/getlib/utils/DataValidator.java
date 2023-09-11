@@ -1,6 +1,6 @@
 package com.luan.getlib.utils;
 
-import com.luan.getlib.dao.CustomerDAO;
+import com.luan.getlib.repository.CustomerRepository;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.regex.Matcher;
@@ -81,7 +81,7 @@ public class DataValidator {
     }
     
     private static boolean usernameExists(String username){
-        return CustomerDAO.usernameExists(username);
+        return CustomerRepository.usernameExists(username);
     }
     
     private static boolean isLengthValid(String value, int minLength, int maxLength){

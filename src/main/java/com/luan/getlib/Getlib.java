@@ -5,6 +5,7 @@ import com.luan.getlib.interfaces.MenuScreen;
 import com.luan.getlib.interfaces.RegistrationScreen;
 import com.luan.getlib.models.Customer;
 import com.luan.getlib.models.Employee;
+import com.luan.getlib.utils.Database;
 import com.luan.getlib.utils.InputReader;
 
 /**
@@ -14,8 +15,8 @@ import com.luan.getlib.utils.InputReader;
 
 public class Getlib {
     private static final InputReader sc = new InputReader();
-    private static Employee emp;
-    private static Customer cst;
+    private static Employee employee;
+    private static Customer customer;
             
     public static void main(String[] args) {
         while(true){
@@ -25,6 +26,7 @@ public class Getlib {
             switch(option){
                 case 0:
                     sc.closeScanner();
+                    Database.closeSectionFactory();
                     System.exit(0);
                 case 1:
                     handleLoginMenu();
@@ -57,12 +59,12 @@ public class Getlib {
             case 0:
                 break;
             case 1:
-                cst = LoginScreen.customer(sc);
-                MenuScreen.customer(cst, sc);
+                customer = LoginScreen.customer(sc);
+                MenuScreen.customer(customer, sc);
                 break;
             case 2:
-                emp = LoginScreen.employee(sc);
-                MenuScreen.employee(emp, sc);
+                employee = LoginScreen.employee(sc);
+                MenuScreen.employee(employee, sc);
                 break;
             default:
                 System.out.println("Opção Inválida! Tente novamente!");

@@ -1,14 +1,15 @@
 package com.luan.getlib.interfaces;
 
-import com.luan.getlib.dao.BookDao;
-import com.luan.getlib.dao.CustomerDAO;
-import com.luan.getlib.dao.EmployeeDAO;
-import com.luan.getlib.dao.OperationDAO;
+import com.luan.getlib.repository.BookRepository;
+import com.luan.getlib.repository.CustomerRepository;
+import com.luan.getlib.repository.EmployeeRepository;
+import com.luan.getlib.repository.OperationRepository;
 import com.luan.getlib.models.Address;
 import com.luan.getlib.models.Book;
 import com.luan.getlib.models.Customer;
 import com.luan.getlib.models.Employee;
 import com.luan.getlib.models.Operation;
+import com.luan.getlib.repository.CustomerRepository;
 import com.luan.getlib.security.PasswordUtils;
 import com.luan.getlib.service.CurrencyService;
 import com.luan.getlib.service.RestCountriesService;
@@ -77,7 +78,7 @@ public class MenuScreen {
                             emp.setSalt(salt = PasswordUtils.generateSalt());
                             emp.setPassword(password = PasswordUtils.encryptPassword(password, salt));
 
-                            if(EmployeeDAO.updateEmployee(emp)){
+                            if(EmployeeRepository.updateEmployee(emp)){
                                 System.out.println("Senha alterada com sucesso!");
                             } else {
                                 System.out.println("Ocorreu um erro ao salvar a nova senha. Tente novamente mais tarde!");
@@ -92,7 +93,7 @@ public class MenuScreen {
                                 case 'y':
                                     System.out.print("Digite sua senha para confirmar a operação: ");
                                     if(DataValidator.arePasswordsEqual(new String(PasswordUtils.encryptPassword(sc.getPassword(), emp.getSalt())), new String(emp.getPassword()))){
-                                        if(EmployeeDAO.deleteEmployee(emp)){
+                                        if(EmployeeRepository.deleteEmployee(emp)){
                                             emp = new Employee();
                                             System.out.println("Cadastro excluído com sucesso!");
                                             return;
@@ -132,7 +133,7 @@ public class MenuScreen {
                                 value = sc.getNextDouble();
                                 
                                 book = new Book(title, genre, amount, value, parentalRating);
-                                if(BookDao.saveBook(book)){
+                                if(BookRepository.saveBook(book)){
                                     System.out.println("Livro salvo com sucesso!");
                                 } else {
                                     System.out.println("Falha no salvamento do livro! Tente novamente mais tarde!");
@@ -141,7 +142,7 @@ public class MenuScreen {
                         break;
                     }
                     System.out.print("Digite o Id do livro desejado: ");
-                    book = BookDao.findById(sc.getNextInt());
+                    book = BookRepository.findById(sc.getNextInt());
 
                     do{
                         System.out.println("\nId: " + book.getId());
@@ -316,11 +317,11 @@ public class MenuScreen {
                                         System.out.println("Não é possível encerrar a conta! Você ainda possui ainda possui débitos!");
                                         break;
                                     }
-                                    if((operations = OperationDAO.findRentByCustomer(cst.getId())) != null){
+                                    if((operations = OperationRepository.findRentByCustomer(cst)) != null){
                                         if(operations.isEmpty()){
                                             System.out.print("Digite sua senha para confirmar a operação: ");
                                             if(DataValidator.arePasswordsEqual(new String(PasswordUtils.encryptPassword(sc.getPassword(), cst.getSalt())), new String(cst.getPassword()))){
-                                                if(CustomerDAO.deleteCustomer(cst)){
+                                                if(CustomerRepository.deleteCustomer(cst)){
                                                     cst = new Customer();
                                                     System.out.println("Cadastro excluído com sucesso!");
                                                     return;
@@ -352,24 +353,24 @@ public class MenuScreen {
                         continue;
                     } else {
                         System.out.print("Digite o Id do livro desejado: ");
-                        if((book = BookDao.findById(sc.getNextInt())) != null){
+                        if((book = BookRepository.findById(sc.getNextInt())) != null){
                             exit = 'n';
                             do{
-                                operation = OperationDAO.findByBookAndCustomer(book.getId(), cst.getId());
+                                operation = OperationRepository.findByBookAndCustomer(book, cst);
                                 bookMenu(book, operation, cst, sc);
                             } while (exit != 'y');
                         }
                     }
                     break;
                 case 4:
-                    listBooks(cst.getId());
+                    listBooks(cst);
                     System.out.print("Digite o id desejado ou digite [0] para sair: ");
                     int opt = sc.getNextInt();
                     switch(opt){
                         case 0:
                             break;
                         default:
-                            book = BookDao.findById(Integer.parseInt(String.valueOf(opt)));
+                            book = BookRepository.findById(Integer.parseInt(String.valueOf(opt)));
                             if(myBooks.containsKey(book.getTitle())){
                                 operation = myBooks.get(book.getTitle());
                                 bookMenu(book, operation, cst, sc);
@@ -382,7 +383,7 @@ public class MenuScreen {
                     value = sc.getNextDouble();
                     
                     cst.setCredits(cst.getCredits() + value);
-                    if(CustomerDAO.updateCustomer(cst)){
+                    if(updateCustomer(cst)){
                         System.out.println("Recarga realizada com sucesso!");
                         System.out.printf("Novo saldo: %s %.2f", cst.getCurrency(), cst.getCredits());
                     }
@@ -424,12 +425,12 @@ public class MenuScreen {
                             System.out.print("Confirma a devolução? (y/n) ");
                             switch(sc.getNext()){
                                 case 'y':
-                                    if(OperationDAO.deleteOperation(operation.getId())){
+                                    if(OperationRepository.deleteOperation(operation.getId())){
                                         System.out.println("Livro devolvido!");
                                         cst.setCredits(cst.getCredits() - rentValue);
-                                        CustomerDAO.updateCustomer(cst);
+                                        updateCustomer(cst);
                                         book.setAmount(book.getAmount() + 1);
-                                        BookDao.updateBook(book);
+                                        BookRepository.updateBook(book);
                                     }
                                     break;
                                 case 'n':
@@ -444,9 +445,9 @@ public class MenuScreen {
                                     operation.setType('p');
                                     operation.setOperationDate(LocalDate.now());
                                     operation.setValue(value);
-                                    if(OperationDAO.updateOperation(operation)){
+                                    if(OperationRepository.updateOperation(operation)){
                                         cst.setCredits(cst.getCredits() - value);
-                                        CustomerDAO.updateCustomer(cst);
+                                        updateCustomer(cst);
                                         System.out.println("Livro adquirido com sucesso!");
                                     }
                                     break;
@@ -476,11 +477,11 @@ public class MenuScreen {
                                 case 'y':
                                     value = operation.getValue();
                                     
-                                    if(OperationDAO.deleteOperation(operation.getId())){
+                                    if(OperationRepository.deleteOperation(operation.getId())){
                                         book.setAmount(book.getAmount() + 1);
                                         cst.setCredits(cst.getCredits() + value);
-                                        BookDao.updateBook(book);
-                                        CustomerDAO.updateCustomer(cst);
+                                        BookRepository.updateBook(book);
+                                        updateCustomer(cst);
                                         System.out.println("Livro devolvido!");
                                     }
                                     break;
@@ -494,7 +495,7 @@ public class MenuScreen {
                             System.out.print("Digite o livro desejado: ");
                             listBooks(sc.getNextLine());
                             System.out.print("Digite o id do livro desejado: ");
-                            Book book2 = BookDao.findById(sc.getNextInt());
+                            Book book2 = BookRepository.findById(sc.getNextInt());
                             value = currConvert.convertFromUSD(book2.getValue(), cst.getCurrency());
                             
                             System.out.println("\nId: " + book2.getId());
@@ -508,17 +509,17 @@ public class MenuScreen {
                             System.out.print("Confirma a troca? (y/n) ");
                             switch(sc.getNext()){
                                 case 'y':
-                                    operation.setBookId(book2.getId());
+                                    operation.setBook(book2);
                                     operation.setOperationDate(LocalDate.now());
                                     operation.setValue(value);
                                     
-                                    if(OperationDAO.updateOperation(operation)){
+                                    if(OperationRepository.updateOperation(operation)){
                                         cst.setCredits(cst.getCredits() - (value - exValue));
-                                        CustomerDAO.updateCustomer(cst);
+                                        updateCustomer(cst);
                                         book.setAmount(book.getAmount() + 1);
-                                        BookDao.updateBook(book);
+                                        BookRepository.updateBook(book);
                                         book2.setAmount(book2.getAmount() - 1);
-                                        BookDao.updateBook(book2);
+                                        BookRepository.updateBook(book2);
                                         System.out.println("Livro trocado com sucesso!");
                                     }
                                     break;
@@ -545,10 +546,10 @@ public class MenuScreen {
                     System.out.print("Confirma o aluguel? (y/n) ");
                     switch(sc.getNext()){
                         case 'y':
-                            if(OperationDAO.saveOperation(new Operation('r', book.getId(), cst.getId(), LocalDate.now(), rentValue))){
+                            if(OperationRepository.saveOperation(new Operation('r', book, cst, LocalDate.now(), rentValue))){
                                 System.out.println("Livro alugado com sucesso!");
                                 book.setAmount(book.getAmount() - 1);
-                                BookDao.updateBook(book);
+                                BookRepository.updateBook(book);
                             }
                             break;
                         case 'n':
@@ -564,11 +565,11 @@ public class MenuScreen {
                             operation.setType('p');
                             operation.setOperationDate(LocalDate.now());
                             operation.setValue(value);
-                            if(OperationDAO.updateOperation(operation)){
+                            if(OperationRepository.updateOperation(operation)){
                                 cst.setCredits(cst.getCredits() - value);
-                                CustomerDAO.updateCustomer(cst);
+                                updateCustomer(cst);
                                 book.setAmount(book.getAmount() - 1);
-                                BookDao.updateBook(book);
+                                BookRepository.updateBook(book);
                                 System.out.println("Livro adquirido com sucesso!");
                             }
                             break;
@@ -582,7 +583,7 @@ public class MenuScreen {
         
     
     private static void listBooks(){
-        if((books = BookDao.getAllBooks()) != null){
+        if((books = BookRepository.getAllBooks()) != null){
             for(Book item : books){
                 System.out.println("\nId: " + item.getId());
                 System.out.println("Título: " + item.getTitle());
@@ -591,7 +592,7 @@ public class MenuScreen {
     }
     
     private static boolean listBooks(String title){
-        if((books = BookDao.findByTitle(title)) != null){
+        if((books = BookRepository.findByTitle(title)) != null){
             for(Book item : books){
                 System.out.println("\nId: " + item.getId());
                 System.out.println("Título: " + item.getTitle());
@@ -603,10 +604,10 @@ public class MenuScreen {
         }
     }
     
-    private static void listBooks(int customerId){
-        if((myBooks = OperationDAO.findByCustomerId(customerId)) != null){
+    private static void listBooks(Customer cst){
+        if((myBooks = OperationRepository.findByCustomerId(cst)) != null){
             for(String key : myBooks.keySet()){
-                System.out.println("\nId: " + myBooks.get(key).getBookId());
+                System.out.println("\nId: " + myBooks.get(key).getBook().getId());
                 System.out.println("Título: " + key);
                 System.out.println("Tipo: " + myBooks.get(key).getTypeAsString());
             }
@@ -614,18 +615,20 @@ public class MenuScreen {
     }
     
     private static void updateBook(){
-        if(BookDao.updateBook(book)){
+        if(BookRepository.updateBook(book)){
             System.out.println("Operação concluída com sucesso!");
         } else {
             System.out.println("Ocorreu um erro ao alterar o livro: " + book.getTitle() + "! Tente novamente mais tarde!");
         }
     }
     
-    private static void updateCustomer(Customer cst){
-        if(CustomerDAO.updateCustomer(cst)){
+    private static boolean updateCustomer(Customer cst){
+        if(CustomerRepository.updateCustomer(cst)){
             System.out.println("Operação concluída com sucesso!");
+            return true;
         } else {
             System.out.println("Occoreu um erro ao alterar o cadastro! Tente novamente mais tarde!");
+            return false;
         }
     }
 }

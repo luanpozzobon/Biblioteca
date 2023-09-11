@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0] - 2023-09-11
+
+### Changed
+
+- As classes DAO agora são Repository.
+- O acesso ao banco de dados é feito a partir do Hibernate.
+
 ## [1.1.2] - 2023-08-31
 
 ### Added

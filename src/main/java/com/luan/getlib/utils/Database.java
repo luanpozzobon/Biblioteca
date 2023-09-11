@@ -1,27 +1,35 @@
 package com.luan.getlib.utils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Properties;
+import com.luan.getlib.models.Book;
+import com.luan.getlib.models.Customer;
+import com.luan.getlib.models.Employee;
+import com.luan.getlib.models.Operation;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 /**
  * @since v0.1.1
  * @author luanpozzobon
  */
 public class Database {
-    private static final String PROPERTIES = "config.properties";
-
-    public static Connection getConnection() throws SQLException{
-        Properties prop = new Properties();
-        try(InputStream inputStream = Database.class.getClassLoader().getResourceAsStream(PROPERTIES)){
-            prop.load(inputStream);
-            return DriverManager.getConnection(prop.getProperty("db.url"), prop.getProperty("db.username"), prop.getProperty("db.password"));
-        } catch (IOException e) {
-            System.out.println("Ocorreu um erro durante a aquisição da URL: " + e);
-            return null;
+    private static SessionFactory sessionFactory;
+    
+    public static SessionFactory getSessionFactory(){
+        if(sessionFactory == null) {
+            Configuration configuration = new Configuration();
+            configuration.addAnnotatedClass(Customer.class);
+            configuration.addAnnotatedClass(Employee.class);
+            configuration.addAnnotatedClass(Book.class);
+            configuration.addAnnotatedClass(Operation.class);
+            sessionFactory = configuration.configure("persistence.xml").buildSessionFactory();
+        }
+        
+        return sessionFactory;
+    }
+    
+    public static void closeSectionFactory(){
+        if(sessionFactory != null){
+            sessionFactory.close();
         }
     }
 }
