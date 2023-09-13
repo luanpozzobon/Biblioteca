@@ -5,7 +5,6 @@ import com.luan.getlib.repository.EmployeeRepository;
 import com.luan.getlib.models.Address;
 import com.luan.getlib.models.Customer;
 import com.luan.getlib.models.Employee;
-import com.luan.getlib.repository.CustomerRepository;
 import com.luan.getlib.security.PasswordUtils;
 import com.luan.getlib.service.RestCountriesService;
 import com.luan.getlib.service.ZipCodeService;

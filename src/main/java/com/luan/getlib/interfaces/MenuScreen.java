@@ -9,7 +9,6 @@ import com.luan.getlib.models.Book;
 import com.luan.getlib.models.Customer;
 import com.luan.getlib.models.Employee;
 import com.luan.getlib.models.Operation;
-import com.luan.getlib.repository.CustomerRepository;
 import com.luan.getlib.security.PasswordUtils;
 import com.luan.getlib.service.CurrencyService;
 import com.luan.getlib.service.RestCountriesService;
