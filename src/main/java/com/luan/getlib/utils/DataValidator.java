@@ -1,6 +1,7 @@
 package com.luan.getlib.utils;
 
-import com.luan.getlib.repository.CustomerRepository;
+import com.luan.getlib.models.Result;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.regex.Matcher;
@@ -16,60 +17,35 @@ public class DataValidator {
     private static final Pattern NUMERIC_CHAR = Pattern.compile("[0-9]");
     private static final Pattern SPECIAL_CHAR = Pattern.compile("[!@#$%¨&*\\-_+=^]");
     private static final Pattern ALLOWED_CHAR = Pattern.compile("^[!@#$%¨&*\\-_+=^0-9a-zA-Z]+$");
+    private static final String INVALID_PASSWORD_LENGTH = "A senha deve conter entre 8 e 32 caracteres!";
+    private static final String PASSWORD_HAS_NO_UPPERCASE = "A senha deve conter ao menos uma letra maíuscula!";
+    private static final String PASSWORD_HAS_NO_LOWERCASE = "A senha deve conter ao menos uma letra minúscula!";
+    private static final String PASSWORD_HAS_NO_NUMBER = "A senha deve conter ao menos um caractere numérico!";
+    private static final String PASSWORD_HAS_NO_SPECIAL = "A senha deve conter ao menos um caractere especial!";
+    private static final String PASSWORD_HAS_INVALID_CHARACTER = "A senha contém caracteres inválidos!";
+    private static final String PASSWORD_DOESNT_MATCH = "As senhas não conferem";
+    private static final String VALID_PASSWORD = "Senha válida!";
     
     public static boolean isUsernameValid(String username){
-        if(!isLengthValid(username, 4, 100)){
-            System.out.println("Nome de Usuário Inválido! A senha deve conter entre 4 e 100 caracteres!");
-            return false;
-        }
-        
-        if(usernameExists(username)){
-            System.out.printf("Nome de Usuário Inválido! O Nome de Usuário: %s já está em uso!\n", username);
-            return false;
-        }
-        
-        return true;
+        return isLengthValid(username, 4, 100);
     }
     
-    public static boolean isPasswordValid(char[] password, char[] password2){
-        String p1 = new String(password);
-        String p2 = new String(password2);
-        if(!isLengthValid(p1, 8, 32)){
-            System.out.println("Senha Inválida! A senha deve conter entre 8 e 32 caracteres!");
-            return false;
-        }
-        
-        if(!hasUppercaseCharacters(p1)){
-            System.out.println("Senha Inválida! A senha deve conter pelo menos uma letra maiúscula!");
-            return false;
-        }
-        
-        if(!hasLowercaseCharacters(p1)){
-            System.out.println("Senha Inválida! A senha deve conter pelo menos uma letra minúscula!");
-            return false;
-        }
-        
-        if(!hasNumericCharacters(p1)){
-            System.out.println("Senha Inválida! A senha deve conter pelo menos um caractere numérico!");
-            return false;
-        }
-        
-        if(!hasSpecialCharacters(p1)){
-            System.out.println("Senha Inválida! A senha deve conter pelo menos um caractere especial!");
-            return false;
-        }
-        
-        if(!hasInvalidCharacters(p1)){
-            System.out.println("Senha Inválida! A senha contém caracteres inválidos!");
-            return false;
-        }
-        
-        if(!arePasswordsEqual(p1, p2)){
-            System.out.println("Senhas não conferem!");
-            return false;
-        }
-        
-        return true;
+    public static Result<String> isPasswordValid(String firstPassword, String secondPassword){
+        if(!isLengthValid(firstPassword, 8, 32))
+            return new Result<>(false, INVALID_PASSWORD_LENGTH, firstPassword);
+        if(!hasUppercaseCharacters(firstPassword))
+            return new Result<>(false, PASSWORD_HAS_NO_UPPERCASE, firstPassword);
+        if(!hasLowercaseCharacters(firstPassword))
+            return new Result<>(false, PASSWORD_HAS_NO_LOWERCASE, firstPassword);
+        if(!hasNumericCharacters(firstPassword))
+            return new Result<>(false, PASSWORD_HAS_NO_NUMBER, firstPassword);
+        if(!hasSpecialCharacters(firstPassword))
+            return new Result<>(false, PASSWORD_HAS_NO_SPECIAL, firstPassword);
+        if(!hasInvalidCharacters(firstPassword))
+            return new Result<>(false, PASSWORD_HAS_INVALID_CHARACTER, firstPassword);
+        if(!arePasswordsEqual(firstPassword, secondPassword))
+            return new Result<>(false, PASSWORD_DOESNT_MATCH, firstPassword);
+        return new Result<>(true, VALID_PASSWORD, firstPassword);
     }
     
     public static boolean isOldEnough(LocalDate age, int requiredAge){
@@ -78,10 +54,6 @@ public class DataValidator {
     
     public static boolean arePasswordsEqual(String password, String password2){
         return password.equals(password2);
-    }
-    
-    private static boolean usernameExists(String username){
-        return CustomerRepository.usernameExists(username);
     }
     
     private static boolean isLengthValid(String value, int minLength, int maxLength){

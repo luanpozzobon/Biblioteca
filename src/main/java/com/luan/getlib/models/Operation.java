@@ -1,11 +1,7 @@
 package com.luan.getlib.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -100,7 +96,7 @@ public class Operation {
     public void setValue(double value) {
         this.value = value;
     }
-    
+
     public double calculateRentValue(){
         int period = Period.between(operationDate, LocalDate.now()).getDays();
         return period > 5 ? value * (period - 5) : 0;
@@ -109,5 +105,9 @@ public class Operation {
     public double calculateExchangeValue(){
         int period = Period.between(operationDate, LocalDate.now()).getMonths();
         return period < 25 ? value - (value * 0.0208 * period) : value - (value * 0.5);
+    }
+
+    public boolean isEmpty() {
+        return book == null;
     }
 }

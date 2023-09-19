@@ -38,8 +38,8 @@ Biblioteca digital para aluguel e compra de livros.
 ## :rocket: Rodando o projeto
 Para rodar o repositório é necessário clonar o mesmo, dar o seguinte comando para iniciar o projeto:
 ```
-cd ./dist/v1.2.0
-java -jar ./Getlib-1.2.0.jar
+cd ./dist/v1.3.0
+java -jar ./Getlib-1.3.0.jar
 ```
 
 ## :soon: Implementação futura

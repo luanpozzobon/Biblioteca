@@ -9,12 +9,12 @@ import java.util.Scanner;
  * @author luanpozzobon
  */
 public class InputReader {
-    private final Scanner sc;
-    private final Console console;
+    private static Scanner scanner;
+    private Console console;
     
     public InputReader(){
         console = System.console();
-        sc = new Scanner(System.in);
+        if(scanner == null) scanner = new Scanner(System.in);
     }
     
     public int getNextInt(){
@@ -22,7 +22,7 @@ public class InputReader {
         if(console != null){
             input = console.readLine();
         } else {
-            input = sc.nextLine();
+            input = scanner.nextLine();
         }
         
         try{
@@ -37,7 +37,7 @@ public class InputReader {
         if(console != null){
             return console.readLine();
         } else {
-            return sc.nextLine();
+            return scanner.nextLine();
         }
     }
     
@@ -47,7 +47,7 @@ public class InputReader {
         if(console != null) {
             input = console.readLine();
         } else {
-            input = sc.nextLine();
+            input = scanner.nextLine();
         }
         
         try{
@@ -64,7 +64,7 @@ public class InputReader {
         if(console != null) {
             input = console.readLine();
         } else {
-            input = sc.nextLine();
+            input = scanner.nextLine();
         }
         
         try{
@@ -79,11 +79,11 @@ public class InputReader {
         if(console != null) {
             return console.readPassword();
         } else {
-            return sc.nextLine().toCharArray();
+            return scanner.nextLine().toCharArray();
         }
     }
     
-    public void closeScanner(){
-        sc.close();
+    public static void closeScanner(){
+        scanner.close();
     }
 }

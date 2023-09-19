@@ -1,12 +1,8 @@
 package com.luan.getlib;
 
-import com.luan.getlib.interfaces.LoginScreen;
-import com.luan.getlib.interfaces.MenuScreen;
-import com.luan.getlib.interfaces.RegistrationScreen;
-import com.luan.getlib.models.Customer;
-import com.luan.getlib.models.Employee;
 import com.luan.getlib.utils.Database;
 import com.luan.getlib.utils.InputReader;
+import com.luan.getlib.views.InitialView;
 
 /**
  * @since v0.1.0
@@ -14,83 +10,13 @@ import com.luan.getlib.utils.InputReader;
  */
 
 public class Getlib {
-    private static final InputReader sc = new InputReader();
-    private static Employee employee;
-    private static Customer customer;
-            
     public static void main(String[] args) {
-        while(true){
-            displayMainMenu();
-            int option = sc.getNextInt();
+        InitialView.showInitialMenu();
+        closeResources();
+    }
 
-            switch(option){
-                case 0:
-                    sc.closeScanner();
-                    Database.closeSectionFactory();
-                    System.exit(0);
-                case 1:
-                    handleLoginMenu();
-                    break;
-                case 2:
-                    handleRegisterMenu();
-                    break;
-                default:
-                    System.out.println("Opção Inválida! Tente novamente!");
-            }
-        }
-    }
-    
-    private static void displayMainMenu(){
-        System.out.println("Bem-Vindo a biblioteca Getlib!");
-        System.out.println("Para ter acesso a uma grande variedade de livros, acesse ou crie sua conta agora mesmo!");
-        System.out.println("1-Login");
-        System.out.println("2-Cadastrar");
-        System.out.println("0-Sair");
-    }
-    
-    private static void handleLoginMenu(){
-        System.out.println("1-Cliente");
-        System.out.println("2-Funcionário");
-        System.out.println("0-Voltar");
-        
-        int option = sc.getNextInt();
-        
-        switch(option){
-            case 0:
-                break;
-            case 1:
-                customer = LoginScreen.customer(sc);
-                MenuScreen.customer(customer, sc);
-                break;
-            case 2:
-                employee = LoginScreen.employee(sc);
-                MenuScreen.employee(employee, sc);
-                break;
-            default:
-                System.out.println("Opção Inválida! Tente novamente!");
-                break;
-        }
-    }
-    
-    private static void handleRegisterMenu(){
-        System.out.println("1-Cliente");
-        System.out.println("2-Funcionário");
-        System.out.println("0-Voltar");
-        
-        int option = sc.getNextInt();
-        
-        switch(option){
-            case 0:
-                break;
-            case 1:
-                RegistrationScreen.customer(sc);
-                break;
-            case 2:
-                RegistrationScreen.employee(sc);
-                break;
-            default:
-                System.out.println("Opção Inválida! Tente novamente!");
-                break;
-        }
+    private static void closeResources() {
+        InputReader.closeScanner();
+        Database.closeSectionFactory();
     }
 }

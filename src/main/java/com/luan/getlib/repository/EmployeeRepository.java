@@ -1,56 +1,28 @@
 package com.luan.getlib.repository;
 
 import com.luan.getlib.models.Employee;
-import com.luan.getlib.utils.Database;
-import jakarta.persistence.NoResultException;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @since v1.2.0
  * @author luanpozzobon
  */
-public class EmployeeRepository {    
+public class EmployeeRepository {
+
+    private static final DatabaseAccess<Employee> employeeDatabase = new DatabaseAccess<>();
     public static boolean saveEmployee(Employee employee){
-        SessionFactory sessionFactory = Database.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        
-        try {
-            session.persist(employee);
-            transaction.commit();
-            
-            return true;
-        } catch(HibernateException e) {
-            transaction.rollback();
-            System.out.println("Operação cancelada: " + e);
-            
-            return false;
-        } finally {
-            session.close();
-        }
+        return employeeDatabase.save(employee);
     }
     
     public static Employee findByAccessCode(String accessCode){
-        String hql = "FROM employees WHERE accessCode = :p";
-        SessionFactory sessionFactory = Database.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        Query query = session.createQuery(hql);
-        
-        query.setParameter("p", accessCode);
-        
-        try {
-            return (Employee) query.uniqueResult();
-        } catch(NoResultException e) {
-            System.out.println("Não há nenhum funcionário com este código de acesso: " + e);
-            
-            return null;
-        } finally {
-            session.close();
-        }
+        List<Employee> employees = employeeDatabase.find(Employee.class, new HashMap<>(){{
+            put("accessCode", accessCode);
+        }});
+        if(employees.isEmpty()) return new Employee();
+
+        return employees.get(0);
     }
     
     public static boolean accessCodeExists(String accessCode){
@@ -58,42 +30,10 @@ public class EmployeeRepository {
     }
     
     public static boolean updateEmployee(Employee employee){
-        SessionFactory sessionFactory = Database.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        
-        try {
-            session.update(employee);
-            transaction.commit();
-            
-            return true;
-        } catch (HibernateException e) {
-            System.out.println("Ocorreu um erro ao atualizar o cadastro no banco de dados: " + e);
-            transaction.rollback();
-            
-            return false;
-        } finally {
-            session.close();
-        }
+        return employeeDatabase.update(employee);
     }
     
     public static boolean deleteEmployee(Employee employee){
-        SessionFactory sessionFactory = Database.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        
-        try {
-            session.delete(employee);
-            transaction.commit();
-            
-            return true;
-        } catch(HibernateException e) {
-            System.out.println("Ocorreu um erro ao deletar o cadastro: " + e);
-            transaction.rollback();
-            
-            return false;
-        } finally {
-            session.close();
-        }
+        return employeeDatabase.delete(employee);
     }
 }

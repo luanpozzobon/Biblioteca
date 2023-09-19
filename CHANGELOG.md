@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased
+
+- Finalização da refatoração das interfaces.
+
+## [1.3.0] - 2023-09-19
+
+### Added
+
+- Adicionado classe genérica de acesso ao banco de dados `DatabaseAccess`.
+- Adicionadas classes de `Controller`.
+
+### Changed
+
+- Os métodos das classes `Repository` utilizam as implementações da classe genérica `DatabaseAccess`.
+- As classes `Book` e `Customer` implementam a interface `Serializable`.
+- Refatoração das classes de interface agora chamadas de `view`.
+- Refatoração geral do projeto.
+
 ## [1.2.0] - 2023-09-11
 
 ### Changed

@@ -4,85 +4,49 @@ import com.luan.getlib.models.Book;
 import com.luan.getlib.models.Customer;
 import com.luan.getlib.models.Operation;
 import com.luan.getlib.utils.Database;
-import jakarta.persistence.NoResultException;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import jakarta.persistence.TypedQuery;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @since v1.2.0
  * @author luanpozzobon
  */
 public class OperationRepository {
+
+    private static final DatabaseAccess<Operation> operationDatabase = new DatabaseAccess<>();
     public static boolean saveOperation(Operation operation){
-        SessionFactory sessionFactory = Database.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        
-        try {
-            session.persist(operation);
-            transaction.commit();
-            
-            return true;
-        } catch(HibernateException e) {
-            transaction.rollback();
-            System.out.println("Operação cancelada: " + e);
-            
-            return false;
-        } finally {
-            session.close();
-        }
+        return operationDatabase.save(operation);
     }
     
     public static Operation findByBookAndCustomer(Book book, Customer customer){
-        String hql = "FROM Operation WHERE book = :p1 AND customer = :p2";
-        SessionFactory sessionFactory = Database.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        Query query = session.createQuery(hql);
-        
-        query.setParameter("p1", book);
-        query.setParameter("p2", customer);
-        
-        try {
-            return (Operation) query.uniqueResult();
-        } catch(NoResultException e) {
-            System.out.println("Não foi encontrada nenhuma operação do livro especificado para este usuário: " + e);
-            
-            return null;
-        } finally {
-            session.close();
-        }
+        List<Operation> operations = operationDatabase.find(Operation.class, new HashMap<>(){{
+            put("book", book);
+            put("customer", customer);
+        }});
+        if(operations.isEmpty()) return null;
+
+        return operations.get(0);
     }
     
     public static List<Operation> findRentByCustomer(Customer customer){
-        String hql = "FROM Operation WHERE type = 'r' AND customer = :p";
-        SessionFactory sessionFactory = Database.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        Query query = session.createQuery(hql);
-        
-        query.setParameter("p", customer);
-        
-        try{
-            return query.list();
-        } catch(HibernateException e) {
-            System.out.println("Ocorreu um erro durante a consulta: " + e);
-            
-            return null;
-        } finally {
-            session.close();
-        }
+        return operationDatabase.find(Operation.class, new HashMap<>(){{
+            put("customer", customer);
+        }});
     }
     
     public static Map<String, Operation> findByCustomerId(Customer customer){
         String hql = "SELECT operation, book.title FROM Operation operation LEFT JOIN operation.book book WHERE operation.customer = :p";
         SessionFactory sessionFactory = Database.getSessionFactory();
         Session session = sessionFactory.openSession();
-        Query<Object[]> query = session.createQuery(hql);
+        TypedQuery<Object[]> query = session.createQuery(hql, Object[].class);
         
         query.setParameter("p", customer);
         
@@ -105,43 +69,10 @@ public class OperationRepository {
     }
     
     public static boolean updateOperation(Operation operation){
-        SessionFactory sessionFactory = Database.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        
-        try {
-            session.update(operation);
-            transaction.commit();
-            
-            return true;
-        } catch (HibernateException e){
-            System.out.println("Ocorreu um erro ao atualizar a operação no banco de dados: " + e);
-            transaction.rollback();
-            
-            return false;
-        } finally {
-            session.close();
-        }
+        return operationDatabase.update(operation);
     }
     
-    public static boolean deleteOperation(int operationId){
-        SessionFactory sessionFactory = Database.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.beginTransaction();
-        
-        try{
-            Operation operation = session.get(Operation.class, operationId);
-            session.delete(operation);
-            transaction.commit();
-            
-            return true;
-        } catch(HibernateException e){
-            System.out.println("Ocorreu um erro ao deletar a operação: " + e);
-            transaction.rollback();
-            
-            return false;
-        } finally {
-            session.close();
-        }
+    public static boolean deleteOperation(Operation operation){
+        return operationDatabase.delete(operation);
     }
 }

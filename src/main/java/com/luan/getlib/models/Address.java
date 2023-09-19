@@ -5,13 +5,15 @@ package com.luan.getlib.models;
  * @author luanpozzobon
  */
 public class Address {
-    private final String nation;
-    private final String state;
-    private final String city;
+    private String nation;
+    private String state;
+    private String city;
     private String street;
     private String number;
-    private final String zipCode;
-    
+    private String zipCode;
+
+    public Address() { }
+
     public Address(String nation, String state, String city, String zipCode) {
         this.nation = nation;
         this.state = state;
@@ -38,6 +40,8 @@ public class Address {
         this.number = values[1];
         this.zipCode = values[5];
     }
+
+
 
     public String getStreet() {
         return street;
@@ -71,8 +75,28 @@ public class Address {
         return zipCode;
     }
 
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
     @Override
     public String toString() {
         return street + ',' + number + ',' + city + ',' + state + ',' + nation + ',' + zipCode;
+    }
+
+    public boolean isEmpty() {
+        return zipCode == null;
     }
 }

@@ -4,15 +4,20 @@ package com.luan.getlib.models;
  * @since v0.1.0
  * @author luanpozzobon
  */
-import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+
 @Entity
 @Table(name = "customers")
-public class Customer {
+public class Customer implements Serializable, Cloneable {
     @Id
     @Column(name = "customer_id")
     private int id;             // Id de identificação do usuário
@@ -49,10 +54,10 @@ public class Customer {
 
     public Customer() { }
     
-    public Customer(String fullName, LocalDate birthDate, Address address, String email, String phone, double credits, String currency, String username, char[] salt, char[] password) {
+    public Customer(String fullName, LocalDate birthDate, String address, String email, String phone, double credits, String currency, String username, char[] salt, char[] password) {
         this.fullName = fullName;
         this.birthDate = birthDate;
-        this.address = address.toString();
+        this.address = address;
         this.email = email;
         this.phone = phone;
         this.credits = credits;
@@ -90,8 +95,8 @@ public class Customer {
         return address;
     }
 
-    public void setAddress(Address address) {
-        this.address = address.toString();
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getCurrency() {
@@ -148,5 +153,39 @@ public class Customer {
 
     public void setPassword(char[] password) {
         this.password = password;
+    }
+
+    @Override
+    public Customer clone() {
+        try {
+            return (Customer) super.clone();
+        } catch(CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void rollback(Customer originalCustomer) {
+        this.address = originalCustomer.address;
+        this.email = originalCustomer.email;
+        this.phone = originalCustomer.phone;
+        this.credits = originalCustomer.credits;
+        this.currency = originalCustomer.currency;
+        this.username = originalCustomer.username;
+        this.salt = originalCustomer.salt;
+        this.password = originalCustomer.password;
+    }
+
+    public void makeRecharge(double rechargeValue) {
+        credits = credits + rechargeValue;
+    }
+    public boolean isEmpty() {
+        return username == null;
+    }
+
+    public String getAccountInfo() {
+        return "Nome de Usuário: " + username +
+               "\nCréditos: " + currency + credits +
+               "\nE-Mail: " + email +
+               "\nTelefone: " + phone;
     }
 }
