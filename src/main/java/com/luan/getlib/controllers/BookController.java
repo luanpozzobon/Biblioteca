@@ -11,15 +11,13 @@ import com.luan.getlib.services.CurrencyService;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class BookController<T> {
     private final String NO_BOOKS_FOUND = "Não foi encontrado nenhum livro!";
     private final String BOOKS_FOUND = "Livros encontrados";
 
-    public Map<String, Operation> getCustomerBooks(Customer customer) {
-        return OperationRepository.findByCustomerId(customer);
+    public List<Operation> getCustomerBooks(Customer customer) {
+        return OperationRepository.findByCustomer(customer);
     }
 
     public Result<List<Book>> list() {
@@ -67,13 +65,6 @@ public class BookController<T> {
         return new Result<>(true, CONVERTED_VALUE, convertedValue);
     }
 
-    public Map<String, Operation> checkThisBook(Book book, Map<String, Operation> myBooks) {
-        return myBooks.entrySet()
-                .stream()
-                .filter(map -> map.getKey().equals(book.getTitle()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
-
     public Result<Operation> rentOrReturnBook(Customer customer, Operation operation, Book book, double value) {
         final String RENT_ERROR = "Não foi possível alugar o livro!", RENT_SUCCESS = "Livro alugado com sucesso!";
         final String RETURN_ERROR = "Não foi possível devolver o livro!", RETURN_SUCCESS = "Livro devolvido com sucesso!";
@@ -83,9 +74,13 @@ public class BookController<T> {
                 return new Result<>(false, RENT_ERROR, operation);
             return new Result<>(true, RENT_SUCCESS, operation);
         } else {
-            if(!OperationRepository.deleteOperation(operation))
+            Customer originalCustomer = customer.clone();
+            customer.setCredits(customer.getCredits() - operation.calculateRentValue());
+            if(!OperationRepository.deleteOperation(operation)) {
+                customer.rollback(originalCustomer);
                 return new Result<>(false, RETURN_ERROR, operation);
-            return new Result<>(true, RENT_SUCCESS, operation);
+            }
+            return new Result<>(true, RETURN_SUCCESS, operation);
         }
     }
 
@@ -103,9 +98,54 @@ public class BookController<T> {
         } else {
             if(Period.between(operation.getOperationDate(), LocalDate.now()).getDays() > 7)
                 return new Result<>(false, RETURN_NOT_AVAILABLE, operation);
-            if(!OperationRepository.deleteOperation(operation))
+            Customer originalCustomer = customer.clone();
+            customer.setCredits(customer.getCredits() + operation.getValue());
+            if(!OperationRepository.deleteOperation(operation)) {
+                customer.rollback(originalCustomer);
                 return new Result<>(false, RETURN_ERROR, operation);
+            }
             return new Result<>(true, RETURN_SUCCESS, operation);
         }
+    }
+
+    public Result<Operation> getBookOperation(int operationId) {
+        final String OPERATION_NOT_FOUND = "Não existe nenhuma compra ou aluguel com este id!",
+                     SUCCESS = "Operação encontrada!";
+        Operation operation = OperationRepository.findById(operationId);
+        if(!operation.isEmpty())
+            return new Result<>(false, OPERATION_NOT_FOUND, operation);
+        return new Result<>(true, SUCCESS, operation);
+    }
+
+    public Result<Book> insertBook(Book book, int amount) {
+        return changeBookAmount(book, amount);
+    }
+
+    public Result<Book> removeBook(Book book, int amount) {
+        return changeBookAmount(book, -amount);
+    }
+
+    private Result<Book> changeBookAmount(Book book, int amount) {
+        final String UPDATE_ERROR = "Não foi possível atualizar a quantidade de livros!",
+                     UPDATE_SUCCESS = "Quantidade de livros atualizada!";
+        Book originalBook = book.clone();
+        book.setAmount(book.getAmount() + amount);
+        if(!BookRepository.updateBook(book)) {
+            book.rollback(originalBook);
+            return new Result<>(false, UPDATE_ERROR, book);
+        }
+        return new Result<>(true, UPDATE_SUCCESS, book);
+    }
+
+    public Result<Book> changeBookValue(Book book, double value) {
+        final String UPDATE_ERROR = "Não foi possível atualizar o valor do livro!",
+                     UPDATE_SUCCESS = "Valor do livro atualizado!";
+        Book originalBook = book.clone();
+        book.setValue(value);
+        if(!BookRepository.updateBook(book)) {
+            book.rollback(originalBook);
+            return new Result<>(false, UPDATE_ERROR, book);
+        }
+        return new Result<>(true, UPDATE_SUCCESS, book);
     }
 }

@@ -1,7 +1,6 @@
 package com.luan.getlib.views;
 
 import com.luan.getlib.controllers.LoginController;
-import com.luan.getlib.interfaces.MenuScreen;
 import com.luan.getlib.models.Customer;
 import com.luan.getlib.models.Employee;
 import com.luan.getlib.models.Result;
@@ -30,7 +29,6 @@ public class LoginView {
         final LoginController loginController = new LoginController();
         Result<Employee> result = loginController.authenticateEmployee(accessCode, password);
         System.out.println(result.message);
-        MenuScreen.employee(result.entity, sc);
-        // TODO -
+        EmployeeApplicationView.showMainMenu(result.entity);
     }
 }

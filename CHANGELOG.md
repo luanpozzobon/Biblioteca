@@ -1,8 +1,18 @@
 # Changelog
 
-## Unreleased
+## [1.3.1] - 2023-09-20
 
-- Finalização da refatoração das interfaces.
+### Added
+
+- Adicionadas classes `EmployeeApplicationView` e `EmployeeController`.
+
+### Changed
+
+- A interface principal para funcionários agora está na classe `EmployeeAplicationView`.
+
+### Removed
+
+- Removida classe MenuScreen.
 
 ## [1.3.0] - 2023-09-19
 

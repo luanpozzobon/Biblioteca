@@ -14,7 +14,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "books")
-public class Book implements Serializable {
+public class Book implements Serializable, Cloneable {
     
     @Id
     @Column(name = "book_id")
@@ -75,6 +75,19 @@ public class Book implements Serializable {
 
     public void setValue(double value) {
         this.value = value;
+    }
+
+    public Book clone() {
+        try {
+            return (Book) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void rollback(Book originalBook) {
+        this.amount = originalBook.amount;
+        this.value = originalBook.value;
     }
 
     public boolean isEmpty() {

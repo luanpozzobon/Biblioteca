@@ -10,7 +10,6 @@ import com.luan.getlib.utils.DataFormatter;
 import com.luan.getlib.utils.InputReader;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @since v1.3.0
@@ -20,16 +19,16 @@ public class CustomerApplicationView {
     private static final InputReader sc = new InputReader();
     private static final CustomerController customerController = new CustomerController();
     private static final BookController<Customer> bookController = new BookController<>();
-    private static Map<String, Operation> myBooks;
+    private static List<Operation> myBooks;
     private static final char YES = 'y';
 
     public static void showMainMenu(Customer customer) {
         final int EXIT = 0, MY_ACCOUNT = 1, LIST_BOOKS = 2,
                   SEARCH_BOOKS = 3, MY_BOOKS = 4;
         while(true) {
-            myBooks = bookController.getCustomerBooks(customer);
             if(customer.isEmpty())
                 return;
+            myBooks = bookController.getCustomerBooks(customer);
             System.out.println("1-Minha Conta");
             System.out.println("2-Listar Livros");
             System.out.println("3-Buscar Livros");
@@ -51,8 +50,7 @@ public class CustomerApplicationView {
                     searchBooks(customer);
                 }
                 case MY_BOOKS -> {
-                    System.out.println("Esta função está indisponível no momento!");
-                    // showCustomerBooks();
+                    showCustomerBooks(customer);
                 }
             }
         }
@@ -183,20 +181,38 @@ public class CustomerApplicationView {
         }
         double value = valueResult.entity;
         System.out.printf("Valor: %s%.2f", customer.getCurrency(), value);
-        Operation operation = showBookOptions(customer, book);
-        handleBookOptions(customer, operation, book, value, sc.getNextInt());
+        Operation operation = showBookOptions();
+        handleBookOptions(customer, operation, book, value);
     }
 
-    private static Operation showBookOptions(Customer customer, Book book) {
+    private static void showCustomerBooks(Customer customer) {
+        for (Operation operation : myBooks) {
+            System.out.println("\nId: " + operation.getId());
+            System.out.println("Título: " + operation.getBook().getTitle());
+            System.out.println("Tipo: " + operation.getTypeAsString());
+        }
+        System.out.print("Digite o id ou 0 p/ sair: ");
+        int operationId = sc.getNextInt();
+        Result<Operation> operationResult = bookController.getBookOperation(operationId);
+        if (!operationResult.result) {
+            System.out.println(operationResult.message);
+            return;
+        }
+        Operation operation = operationResult.entity;
+        showBookOptions(operation);
+        handleBookOptions(customer, operation, operation.getBook(), operation.getValue());
+    }
+
+    private static Operation showBookOptions() {
         Operation operation = new Operation();
-        for(Operation value : myBooks.values()) {
+        for(Operation value : myBooks) {
             if(value.getType() == 'r') {
                 operation = value;
                 break;
             }
         }
         if(!operation.isEmpty()) {
-            System.out.printf("1-Livro alugado em %s por %.2f / dia! Devolver");
+            System.out.printf("1-Livro alugado em %s por %.2f / dia! Devolver", operation.getOperationDate(), operation.getValue());
         } else {
             System.out.println("1-Alugar");
         }
@@ -205,8 +221,26 @@ public class CustomerApplicationView {
         return operation;
     }
 
-    private static void handleBookOptions(Customer customer, Operation operation, Book book, double value, int option) {
+    private static void showBookOptions(Operation operation) {
+        final char RENT = 'r', PURCHASE = 'p';
+        if(!operation.isEmpty()) {
+            switch (operation.getType()) {
+                case RENT -> {
+                    System.out.printf("1-Livro alugado em %s por %.2f / dia! Devolver\n", operation.getOperationDate(), operation.getValue());
+                    System.out.println("2-Comprar");
+                }
+                case PURCHASE -> {
+                    System.out.println("1-Alugar");
+                    System.out.printf("2-Livro comprado em %s por %.2f! Devolver\n", operation.getOperationDate(), operation.getValue());
+                }
+            }
+            System.out.println("0-Voltar");
+        }
+    }
+
+    private static void handleBookOptions(Customer customer, Operation operation, Book book, double value) {
         final int RETURN = 0, RENT = 1, PURCHASE = 2;
+        int option = sc.getNextInt();
         switch(option) {
             case RETURN -> {
                 return;

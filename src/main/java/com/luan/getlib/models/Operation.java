@@ -101,11 +101,6 @@ public class Operation {
         int period = Period.between(operationDate, LocalDate.now()).getDays();
         return period > 5 ? value * (period - 5) : 0;
     }
-    
-    public double calculateExchangeValue(){
-        int period = Period.between(operationDate, LocalDate.now()).getMonths();
-        return period < 25 ? value - (value * 0.0208 * period) : value - (value * 0.5);
-    }
 
     public boolean isEmpty() {
         return book == null;

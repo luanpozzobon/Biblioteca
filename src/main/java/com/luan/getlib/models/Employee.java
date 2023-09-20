@@ -14,7 +14,7 @@ import java.util.Random;
  */
 @Entity
 @Table(name = "employees")
-public class Employee {
+public class Employee implements Cloneable{
     
     @Id
     @Column(name = "employee_id")
@@ -101,6 +101,12 @@ public class Employee {
     public void setPassword(char[] password) {
         this.password = password;
     }
+
+    public String getAccountInfo() {
+        return "Código de Acesso: " + accessCode +
+               "\nE-Mail: " + email +
+                "\nTelefone: " + phone;
+    }
     
     public String generateAccessCode(){
         Random rd = new Random(System.currentTimeMillis());
@@ -114,6 +120,21 @@ public class Employee {
         return accessCode;
     }
 
+    @Override
+    public Employee clone() {
+        try {
+            return (Employee) super.clone();
+        } catch(CloneNotSupportedException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void rollback(Employee originalEmployee) {
+        this.email = originalEmployee.email;
+        this.phone = originalEmployee.phone;
+        this.salt = originalEmployee.salt;
+        this.password = originalEmployee.password;
+    }
     public boolean isEmpty() {
         return accessCode == null;
     }
