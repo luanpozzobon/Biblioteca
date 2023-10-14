@@ -1,62 +1,58 @@
-<h1 align="center">:file_cabinet: Getlib</h1>
+<h1 align="center">🔲 Getlib</h1>
+<p align="center">Digital Library for borrowing books</p>
 
-## :memo: Descrição
-Biblioteca digital para aluguel e compra de livros.
-* O sistema apenas simula uma biblioteca, não é possível comprar ou alugar nenhum livro.
-* Todos os livros presentes, são reais, e foram adicionados a partir da API do Google Books, título e gênero são dados reais, os outros dados são aleatórios.
-* Os valores dos livros são valores aleatórios, adicionados em dólar.
-* Os valores editados pelos funcionários, também devem ser colocados em dólar.
-* Os valores mostrados aos clientes, é convertido para a moeda local, portanto ele pode variar de acordo com a cotação atual.
+![Static Badge](https://img.shields.io/badge/version-2.0.0-blue)
+[![Static Badge](https://img.shields.io/badge/license-MIT-blue)](./LICENSE)
+![Static Badge](https://img.shields.io/badge/last%20update-2023--10--14-blue)
 
-## :books: Funcionalidades
-* <b>Cadastro</b>: Cadastro de novos usuários.
-* <b>Criptografia</b>: Salting e hash da senha.
-* <b>Autenticação</b>: Login de usuários.
-* <b>Listagem</b>: É possível ver todos os livros cadastrados.
-* <b>Busca</b>: É possível procura por um livro específico.
-* <b>Inserção/Remoção</b>: Funcionários podem inserir e remover livros.
-* <b>Aluguel</b>: É possível realizar o alguel de livros (gratuito até 5 dias).
-* <b>Devolução</b>: Caso o livro esteja alugado, é possível fazer a devolução.
-* <b>Compra</b>: É possível fazer a aquisição permanente de um livro (caso esteja alugado, o valor do aluguel não será cobrado, apenas o valor da compra).
-* <b>Troca e devolução</b>: É possível trocar livros, e devolvê-los (em até 7 dias).
-* <b>Exclusão de conta</b>: É possível deletar as contas de cliente (caso não haja livros alugados) e funcionários.
+<p align="center">
+    <a href="#🗣️-languages">Languages</a> • 
+    <a href="#🎯-project-status">Status</a> • 
+    <a href="#⚙️-features">Features</a> • 
+    <a href="#📲-application-demo">Application Demo</a> • 
+    <a href="#🛠️-tools">Tools</a> •
+    <a href="#👨‍💻-author">Author</a>
+</p>
 
-## :wrench: Tecnologias utilizadas
-* Java 19
-* MySQL 5.5.62-0
-* Hibernate
+## 🗣️ Languages
+[![Static Badge](https://img.shields.io/badge/lang-pt--BR-blue)](./README.pt-br.md)
 
-### :hammer: API's
-* <b>[Zip Code](https://zipcodebase.com/)</b>: API de consulta de zip code (CEP), para auto-preenchimento de endereço.
-* <b>[REST Countries](https://restcountries.com/)</b>: API de consulta de informações sobre países, utilizada para obtenção da moeda local.
-* <b>[API de Cotações](https://docs.awesomeapi.com.br/api-de-moedas)</b>: API de cotação, utilizada para conversão de valores na moeda local do cliente.
+## 🎯 Project Status
+🚧 Developing 🚧
 
-### :hammer: Dependências
-* <b>gson 2.10.1</b>: Dependência para leitura de JSON's.
-* <b>mysql-connector 8.0.33</b>: Dependência para conexão ao banco de dados MySQL.
+## ⚙️ Features
+- [X] User authentication.
+- [x] Register modification and deletion.
+- [X] List and search of all registered books.
+- [X] Employees are able to add new books.
+- [X] Customers can lend and return books.
 
-## :rocket: Rodando o projeto
-Para rodar o repositório é necessário clonar o mesmo, dar o seguinte comando para iniciar o projeto:
-```
-cd ./dist/v1.3.1
-java -jar ./Getlib-1.3.1.jar
-```
+## 📲 Application Demo
+The application is running at: <a href="https://render.com/">Render</a><br>
+To use the application just [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/26741263-98119975-96a0-42f2-89de-59555a68937d?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D26741263-98119975-96a0-42f2-89de-59555a68937d%26entityType%3Dcollection%26workspaceId%3D170a16a5-b381-467e-88ae-ca72c20665a4)<br>
+It is needed to create a new user and authenticate, or you can authenticate with the existing, username: Admin / password: Admin<br>
+Then you have to copy the value on the Postman response to the field 'Token', in the tab 'Authorization' of Getlib collection.<br>
+From now on you'll be able to use access all the endpoints.<br>
+In case you've registered a 'CUSTOMER' USER, you won't have acces to the 'New Book' endpoint.
 
-## :soon: Implementação futura
+## 🛠️ Tools
+<ul style="list-style:none">
+    <a href="https://www.java.com/en/"><li><img src="./assets/Java.png" width=15px> Java 17</li></a>
+    <a href="https://spring.io/"><li><img src="./assets/Spring.png" width=15px> Spring Framework</li></a>
+    <a href="https://www.mysql.com/"><li><img src="./assets/MySQL.png" width=15px> MySQL</li></a>
+    <a href="https://www.jetbrains.com/idea/"><li><img src="./assets/IntelliJ.png" width=15px> IntelliJ Idea</li></a>
+</ul>
 
-## :handshake: Colaboradores
+## 👨‍💻 Author
 <table>
     <tr>
         <td align="center">
-            <a href="https://github.com/luanpozzobon">
-                <img src="https://avatars.githubusercontent.com/u/108753073?v=4" width="100px;" alt="Foto de Luan Pozzobon no Github"/><br>
-                <sub>
-                    <b>LuanPozzobon</b>
-                </sub>
+            <a href="http://github.com/luanpozzobon">
+            <img src="https://avatars.githubusercontent.com/u/108753073?v=4" width="100px;" alt="GitHub photo of Luan Pozzobon"/><br>
+            <sub>
+                <b>luanpozzobon</b>
+            </sub>
             </a>
         </td>
     </tr>
 </table>
-
-## :dart: Status do projeto
-Em andamento
