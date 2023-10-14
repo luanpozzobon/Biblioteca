@@ -15,7 +15,7 @@
 </p>
 
 ## 🗣️ Languages
-[![Static Badge](https://img.shields.io/badge/lang-pt--BR-blue)](./README.pt-br.md)
+[![Static Badge](https://img.shields.io/badge/lang-pt--BR-blue)](./README.pt-BR.md)
 
 ## 🎯 Project Status
 🚧 Developing 🚧
