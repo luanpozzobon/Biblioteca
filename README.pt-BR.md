@@ -1,5 +1,5 @@
-<h1 align="center">🔲 Getlib</h1>
-<p align="center">Biblioteca digital para empréstimo de livros.</p>
+<h1 align="center">🔲 Project Name</h1>
+<p align="center">Project simple description</p>
 
 ![Static Badge](https://img.shields.io/badge/versão-2.0.0-blue)
 [![Static Badge](https://img.shields.io/badge/licença-MIT-blue)](./LICENSE)
