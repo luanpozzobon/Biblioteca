@@ -36,11 +36,7 @@ Biblioteca digital para aluguel e compra de livros.
 * <b>mysql-connector 8.0.33</b>: Dependência para conexão ao banco de dados MySQL.
 
 ## :rocket: Rodando o projeto
-Para rodar o repositório é necessário clonar o mesmo, dar o seguinte comando para iniciar o projeto:
-```
-cd ./dist/v1.3.1
-java -jar ./Getlib-1.3.1.jar
-```
+Atualmente o projeto não está em execução!
 
 ## :soon: Implementação futura
 
